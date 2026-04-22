@@ -14,8 +14,8 @@ Gives Claude (and any other MCP client) structured, safe access to **every major
 
 ## What you get
 
-- **31 resource-group tools** covering CRM, project management, time tracking, financial, documents, forms, communication, scheduling, knowledge, files, and admin.
-- **3 escape-hatch tools** (`plutio_request`, `plutio_api_reference`, `plutio_rate_limit_status`) for edge cases and agent self-orientation.
+- **31 resource-group tools** covering CRM, project management, time tracking, financial, documents, forms, communication, scheduling, knowledge, files, automations, and admin.
+- **4 escape-hatch tools** (`plutio_api_reference`, `plutio_workspace_schema`, `plutio_rate_limit_status`, `plutio_request`) for edge cases, workspace introspection, and agent self-orientation.
 - **Read-only by default** — no accidental destructive writes until you explicitly enable them.
 - **OAuth2 with auto-refresh** — client-credentials grant; tokens refresh ~1 minute before expiry.
 - **Built-in rate limiting** — a token bucket capped at Plutio's 1000 req/hr default; requests queue transparently.
@@ -140,6 +140,7 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 ### Analytics / admin
 - `plutio_dashboards`
 - `plutio_custom_fields`
+- `plutio_automations` — Plutio's native node-based automation workflows *(list + create only; delete and single-GET are blocked by the REST API)*
 - `plutio_businesses` *(workspace settings — read-only)*
 
 ### Escape hatches

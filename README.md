@@ -260,15 +260,30 @@ For endpoints that don't fit the CRUD pattern (e.g. sending an invoice, publishi
 
 ---
 
+## Known limitations
+
+**Lifecycle actions (Send Invoice, Publish Proposal, Sign Contract, Start/Stop Timer) are not supported by Plutio's public REST API.** Live probing confirmed:
+
+- `PUT /invoices/bulk { status: "sent" }` returns HTTP 200 but silently drops the status field.
+- `POST /invoices/{id}/send` and every variant returns 403.
+- The Plutio web app handles these via Meteor methods over WebSocket/DDP, which is not part of the public API surface.
+
+**Practical workarounds:**
+1. Trigger lifecycle actions in the Plutio web UI, then use this server to read the resulting state.
+2. If you've reverse-engineered a specialized endpoint yourself, invoke it via `plutio_request`.
+3. For status-aware logic (e.g., "find all overdue invoices"), read the `status` and time fields — they're populated server-side once the Plutio app performs the transition.
+
+If Plutio ever exposes these actions publicly, `plutio_request` will work without any server update.
+
 ## Roadmap
 
+- [x] **Workspace introspection** — `plutio_workspace_schema` (v0.4.0)
+- [x] **Transparent bulk routing** — single-record writes use `/bulk` internally (v0.3.0)
 - [ ] Webhook support (once Plutio documents webhook endpoints)
-- [ ] Resource-specific actions: `invoice.send`, `proposal.publish`, `timer.start/stop`, `contract.send_for_signature`
 - [ ] MCP resources (alongside tools) for read-heavy flows — expose `plutio://people/{id}` URIs
-- [ ] Workspace introspection tool that enumerates custom fields and maps them to typed inputs
 - [ ] Optional OpenAPI export of the generated schema
 - [ ] SSE / streaming transport for hosted deployments
-- [ ] Test suite with Plutio API mocking
+- [ ] Mocked-API integration test suite
 
 Contributions welcome — see [Contributing](#contributing).
 

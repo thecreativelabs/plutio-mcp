@@ -7,11 +7,18 @@ interface TokenResponse {
   expires_in?: number;
   tokenType?: string;
   token_type?: string;
+  client?: {
+    id?: string;
+    userId?: string;
+    businesses?: string[];
+    grants?: string[];
+  };
 }
 
 export interface TokenState {
   token: string;
   expiresAt: number;
+  businesses: string[];
 }
 
 export class OAuthTokenManager {
@@ -26,63 +33,72 @@ export class OAuthTokenManager {
   ) {}
 
   async getToken(): Promise<string> {
+    const state = await this.getState();
+    return state.token;
+  }
+
+  async getState(): Promise<TokenState> {
     if (this.state && this.state.expiresAt - Date.now() > this.safetyWindowMs) {
-      return this.state.token;
+      return this.state;
     }
     if (!this.inflight) {
       this.inflight = this.refresh().finally(() => {
         this.inflight = null;
       });
     }
-    const state = await this.inflight;
-    return state.token;
+    return this.inflight;
   }
 
   private async refresh(): Promise<TokenState> {
+    // Plutio's OAuth endpoint requires form-encoded bodies (JSON returns 400 invalid_request).
+    const form = new URLSearchParams({
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      grant_type: "client_credentials",
+    }).toString();
+
     const res = await fetch(this.oauthUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        grant_type: "client_credentials",
-      }),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: form,
     });
 
     const text = await res.text();
-    let body: TokenResponse | string;
+    let parsed: TokenResponse | string;
     try {
-      body = text ? (JSON.parse(text) as TokenResponse) : text;
+      parsed = text ? (JSON.parse(text) as TokenResponse) : text;
     } catch {
-      body = text;
+      parsed = text;
     }
 
-    if (!res.ok || typeof body !== "object") {
+    if (!res.ok || typeof parsed !== "object") {
       throw new PlutioAuthError(
         `Failed to obtain Plutio access token (HTTP ${res.status})`,
-        body,
+        parsed,
       );
     }
 
-    const token = body.accessToken ?? body.access_token;
+    const token = parsed.accessToken ?? parsed.access_token;
     if (!token) {
-      throw new PlutioAuthError("Plutio token response missing access token", body);
+      throw new PlutioAuthError("Plutio token response missing access token", parsed);
     }
 
     let expiresAt: number;
-    if (body.accessTokenExpiresAt) {
-      const parsed =
-        typeof body.accessTokenExpiresAt === "number"
-          ? body.accessTokenExpiresAt
-          : new Date(body.accessTokenExpiresAt).getTime();
-      expiresAt = Number.isFinite(parsed) ? parsed : Date.now() + 3600_000;
-    } else if (typeof body.expires_in === "number") {
-      expiresAt = Date.now() + body.expires_in * 1000;
+    if (parsed.accessTokenExpiresAt) {
+      const ts =
+        typeof parsed.accessTokenExpiresAt === "number"
+          ? parsed.accessTokenExpiresAt
+          : new Date(parsed.accessTokenExpiresAt).getTime();
+      expiresAt = Number.isFinite(ts) ? ts : Date.now() + 3600_000;
+    } else if (typeof parsed.expires_in === "number") {
+      expiresAt = Date.now() + parsed.expires_in * 1000;
     } else {
       expiresAt = Date.now() + 3600_000;
     }
 
-    this.state = { token, expiresAt };
+    const businesses = Array.isArray(parsed.client?.businesses) ? parsed.client!.businesses : [];
+
+    this.state = { token, expiresAt, businesses };
     return this.state;
   }
 

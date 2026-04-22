@@ -85,7 +85,7 @@ export const RESOURCES: ResourceSpec[] = [
   // ─── Time & Scheduling ───────────────────────────────────────────────────
   {
     name: "time_entries",
-    path: "time-track",
+    path: "time-tracks",
     category: "time-tracking",
     description:
       "Billable and non-billable time logs. Associate with tasks/projects via `taskId`/`projectId`. Fields: `startAt`, `endAt`, `duration`, `description`, `isBillable`.",
@@ -99,11 +99,11 @@ export const RESOURCES: ResourceSpec[] = [
       "Time-tracking categories (note: Plutio's `categories` endpoint may cover multiple record types — use with care).",
   },
   {
-    name: "schedulers",
-    path: "schedulers",
+    name: "schedules",
+    path: "schedules",
     category: "scheduling",
     description:
-      "Bookable scheduling pages (like Calendly) — availability windows, meeting types, durations.",
+      "Availability schedules attached to projects, tasks, or bookable pages — days/hours of availability, time zones.",
   },
   {
     name: "events",
@@ -124,11 +124,11 @@ export const RESOURCES: ResourceSpec[] = [
     bulk: true,
   },
   {
-    name: "subscriptions",
-    path: "subscriptions",
+    name: "invoice_subscriptions",
+    path: "invoice-subscriptions",
     category: "financial",
     description:
-      "Recurring invoice subscriptions — auto-generate invoices on an interval.",
+      "Recurring invoice subscriptions — auto-generate invoices on an interval. Fields include `repeat`, `mainInvoiceId`, `client`, `currency`.",
     bulk: true,
   },
   {
@@ -187,17 +187,11 @@ export const RESOURCES: ResourceSpec[] = [
     bulk: true,
   },
   {
-    name: "messengers",
-    path: "messengers",
-    category: "communication",
-    description: "Messaging channel configurations (email, in-app, etc.).",
-  },
-  {
     name: "comments",
     path: "comments",
     category: "communication",
     description:
-      "Comments attached to specific records (tasks, projects, invoices). Use `recordId` + `recordType` to filter.",
+      "Comments attached to specific records. IMPORTANT: list requires either `_id` OR both `entityType` + `entityId` in the query — e.g. {entityType: 'task', entityId: '<id>'}.",
     bulk: true,
   },
 
@@ -211,10 +205,10 @@ export const RESOURCES: ResourceSpec[] = [
     bulk: true,
   },
   {
-    name: "snippets",
-    path: "snippets",
+    name: "canned_responses",
+    path: "canned-responses",
     category: "knowledge",
-    description: "Canned responses and reusable content blocks.",
+    description: "Reusable response snippets — Plutio's canned replies for emails, messages, and conversations.",
   },
   {
     name: "wiki_pages",
@@ -234,17 +228,18 @@ export const RESOURCES: ResourceSpec[] = [
 
   // ─── Files ───────────────────────────────────────────────────────────────
   {
-    name: "folders",
-    path: "folders",
+    name: "file_folders",
+    path: "file-folders",
     category: "files",
-    description: "Folder hierarchy for organizing files.",
+    description:
+      "Folder hierarchy for organizing files. Each folder has `entityType`, `entityId`, and optional `parentFolderId`.",
     bulk: true,
   },
   {
     name: "files",
     path: "files",
     category: "files",
-    description: "Uploaded files — metadata only via the API.",
+    description: "Uploaded files — metadata plus `url`, `handle`, `mimeType`, `size`, `linkedEntities`.",
     bulk: true,
   },
 

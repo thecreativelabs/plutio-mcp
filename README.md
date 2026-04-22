@@ -51,12 +51,15 @@ Add to your MCP config (`~/Library/Application Support/Claude/claude_desktop_con
       "env": {
         "PLUTIO_CLIENT_ID": "your_client_id",
         "PLUTIO_CLIENT_SECRET": "your_client_secret",
+        "PLUTIO_BUSINESS": "your_workspace_slug",
         "PLUTIO_READ_ONLY": "true"
       }
     }
   }
 }
 ```
+
+> `PLUTIO_BUSINESS` is your workspace slug — the subdomain part of `<slug>.plutio.com`. If your OAuth client is tied to exactly one business, you can omit it and the server will auto-detect from the token response. When the client has access to multiple businesses, you must set it explicitly.
 
 Restart Claude. You should now see `plutio_*` tools available.
 
@@ -72,6 +75,7 @@ Set `PLUTIO_READ_ONLY=false` to unlock `create`, `update`, `delete`, `archive`, 
 |---|---|---|---|
 | `PLUTIO_CLIENT_ID` | yes | — | OAuth2 client ID from Plutio |
 | `PLUTIO_CLIENT_SECRET` | yes | — | OAuth2 client secret from Plutio |
+| `PLUTIO_BUSINESS` | conditional | auto-detected from token | Workspace slug. Required when your OAuth client has access to multiple businesses |
 | `PLUTIO_READ_ONLY` | no | `true` | When `true`, only `list`/`get` actions are exposed |
 | `PLUTIO_API_BASE` | no | `https://api.plutio.com/v1.11` | Override for self-hosted / future API versions |
 | `PLUTIO_OAUTH_URL` | no | `$PLUTIO_API_BASE/oauth/token` | Override for the token endpoint |
@@ -101,12 +105,12 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 - `plutio_task_boards` · `plutio_task_groups` · `plutio_statuses`
 
 ### Time tracking
-- `plutio_time_entries` — billable/non-billable logs
+- `plutio_time_entries` — billable/non-billable logs (API path: `/time-tracks`)
 - `plutio_time_categories`
 
 ### Financial
 - `plutio_invoices`
-- `plutio_subscriptions` — recurring invoices
+- `plutio_invoice_subscriptions` — recurring invoices
 - `plutio_transactions` — payments
 
 ### Documents
@@ -118,17 +122,17 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 - `plutio_form_responses` — raw submissions before qualification
 
 ### Communication
-- `plutio_conversations` · `plutio_messengers` · `plutio_comments`
+- `plutio_conversations` · `plutio_comments` *(comments requires `entityType` + `entityId` in the query)*
 
 ### Scheduling
-- `plutio_schedulers` — bookable pages
+- `plutio_schedules` — availability windows
 - `plutio_events` — calendar entries
 
 ### Knowledge
-- `plutio_templates` · `plutio_snippets` · `plutio_wiki_pages` · `plutio_items`
+- `plutio_templates` · `plutio_canned_responses` · `plutio_wiki_pages` · `plutio_items`
 
 ### Files
-- `plutio_folders` · `plutio_files`
+- `plutio_file_folders` · `plutio_files`
 
 ### Analytics / admin
 - `plutio_dashboards`

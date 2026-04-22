@@ -3,6 +3,7 @@ import { z } from "zod";
 const ConfigSchema = z.object({
   clientId: z.string().min(1, "PLUTIO_CLIENT_ID is required"),
   clientSecret: z.string().min(1, "PLUTIO_CLIENT_SECRET is required"),
+  business: z.string().min(1).optional(),
   apiBase: z.string().url().default("https://api.plutio.com/v1.11"),
   oauthUrl: z.string().url().optional(),
   readOnly: z.boolean().default(true),
@@ -22,6 +23,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   return ConfigSchema.parse({
     clientId: env.PLUTIO_CLIENT_ID,
     clientSecret: env.PLUTIO_CLIENT_SECRET,
+    business: env.PLUTIO_BUSINESS,
     apiBase,
     oauthUrl: env.PLUTIO_OAUTH_URL ?? `${apiBase}/oauth/token`,
     readOnly: parseBool(env.PLUTIO_READ_ONLY, true),

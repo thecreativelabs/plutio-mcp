@@ -1,6 +1,6 @@
 import { OAuthTokenManager } from "./auth.js";
 import type { Config } from "./config.js";
-import { PlutioRateLimitError, mapHttpError } from "./errors.js";
+import { PlutioAuthError, PlutioRateLimitError, mapHttpError } from "./errors.js";
 import { RateLimiter } from "./rate-limiter.js";
 
 export interface RequestOptions {
@@ -28,10 +28,12 @@ export class PlutioClient {
     await this.limiter.acquire();
 
     const url = this.buildUrl(opts.path, opts.query);
-    const token = await this.auth.getToken();
+    const state = await this.auth.getState();
+    const business = this.resolveBusiness(state.businesses);
 
     const headers: Record<string, string> = {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${state.token}`,
+      Business: business,
       Accept: "application/json",
       ...(opts.headers ?? {}),
     };
@@ -71,6 +73,21 @@ export class PlutioClient {
     }
 
     return body as T;
+  }
+
+  private resolveBusiness(fromToken: string[]): string {
+    if (this.config.business) return this.config.business;
+    if (fromToken.length === 1) return fromToken[0]!;
+    if (fromToken.length === 0) {
+      throw new PlutioAuthError(
+        "No business associated with this OAuth client. Set PLUTIO_BUSINESS explicitly.",
+        { businessesFromToken: fromToken },
+      );
+    }
+    throw new PlutioAuthError(
+      `OAuth client is enabled for multiple businesses (${fromToken.join(", ")}). Set PLUTIO_BUSINESS to pick one.`,
+      { businessesFromToken: fromToken },
+    );
   }
 
   private buildUrl(path: string, query?: Record<string, unknown>): string {

@@ -28,7 +28,7 @@ Requires `PLUTIO_READ_ONLY=false`.
       }
     }
     ```
-2. **`plutio_people`** list with `{"name.first": "Mark", "name.last": "Doe"}` → get `_id`.
+2. **`plutio_people`** list with `{"name.first": "Jane", "name.last": "Doe"}` → get `_id`.
 3. **`plutio_people`** update:
     ```json
     {

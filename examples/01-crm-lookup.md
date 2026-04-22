@@ -8,7 +8,7 @@ Good sanity-check flow for a new install. Also useful as a "who is this?" lookup
 
 ## What Claude will do
 
-1. **`plutio_people`** with `action: list`, `query: {"name.first": "Mark", "name.last": "Doe"}` → gets the person record + `companies[]` refs.
+1. **`plutio_people`** with `action: list`, `query: {"name.first": "Jane", "name.last": "Doe"}` → gets the person record + `companies[]` refs.
 2. **`plutio_companies`** with `action: get`, `id: <companyId from step 1>` → company details.
 3. **`plutio_projects`** with `action: list`, `query: {"client._id": <personId>}` → active projects.
 4. **`plutio_invoices`** with `action: list`, `query: {"client._id": <personId>, "status": {"$ne": "paid"}}` → outstanding invoices.
@@ -17,7 +17,7 @@ Good sanity-check flow for a new install. Also useful as a "who is this?" lookup
 
 > **Jane Doe** — client  
 > **Phone:** (555) 555-0123  
-> **Company:** Acme Widgets (`company_abc123`)  
+> **Company:** Acme Corp (`company_abc123`)  
 >
 > **Active projects (2):**
 > - Website Redesign — in progress, 62% complete

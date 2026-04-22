@@ -17,7 +17,7 @@ Takes ~10 tool calls, produces a crisp exec-ready summary.
 ## Example answer
 
 ```
-Website Redesign (Acme Widgets)
+Website Redesign (Acme Corp)
   Progress: 18/29 tasks done (62%)
   Time this week: 14.5h
   Stalled: "Mobile breakpoints review" (10d), "Stakeholder approval" (12d)
@@ -27,7 +27,7 @@ Mobile App Phase 2 (Jane Doe)
   Time this week: 2.0h
   Stalled: none
 
-Onboarding Automation (Bluehat LLC)
+Onboarding Automation (Example LLC)
   Progress: 8/8 tasks (100%) — ready to close
   Time this week: 0h
   ⚠️ Project still marked active — consider archiving

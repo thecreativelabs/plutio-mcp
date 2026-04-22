@@ -27,13 +27,13 @@ The "send to accounts receivable on Monday morning" report.
 
 ```
 90+ days overdue (3 invoices, $12,450 total)
-  INV-1003   $4,200   Acme Widgets      due 2026-01-12 (101d)
-  INV-1008   $5,250   Northside Design  due 2026-01-18 ( 95d)
-  INV-1011   $3,000   Bluehat LLC       due 2026-01-30 ( 83d)
+  INV-1003   $4,200   Acme Corp      due 2026-01-12 (101d)
+  INV-1008   $5,250   Example Design Co  due 2026-01-18 ( 95d)
+  INV-1011   $3,000   Example LLC       due 2026-01-30 ( 83d)
 
 60–90 days overdue (2, $1,850 total)
-  INV-1019   $1,350   Acme Widgets      due 2026-02-11 ( 71d)
-  INV-1022   $  500   SmallFry Co       due 2026-02-20 ( 62d)
+  INV-1019   $1,350   Acme Corp      due 2026-02-11 ( 71d)
+  INV-1022   $  500   Sample Co       due 2026-02-20 ( 62d)
 
 30–60 days overdue (4, $7,025 total)
   ...

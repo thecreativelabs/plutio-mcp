@@ -37,12 +37,12 @@ Reviewed 8 responses from the last 7 days.
 Qualified (budget > $5,000): 3
 
 Created:
-  • Sarah Okonkwo <sarah@greenhaus.io>     — budget $8,500
-  • Juan Vela <juan@velacollective.com>     — budget $12,000
-  • Priya Nair <priya@lumencrafted.co>      — budget $6,750
+  • Alice Example <alice@example.com>     — budget $8,500
+  • Bob Example <bob@example.com>     — budget $12,000
+  • Carol Example <carol@example.com>      — budget $6,750
 
 Below threshold (kept in form-responses, not promoted):
-  • Alex Ng <alex@ng-freelance.com>         — budget $1,200
+  • Dave Example <dave@example.com>         — budget $1,200
   ... and 4 more
 ```
 

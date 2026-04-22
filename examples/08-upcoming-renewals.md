@@ -31,11 +31,11 @@ For finance teams: "what's going to bill soon?" Also great before a pricing chan
 Upcoming renewals (next 30 days): 6 subs · $3,360 total
 
 Apr 25  Acme Corp (Dom Ren.)      $360   annual
-Apr 28  Bluehat LLC                      $250.00   monthly retainer
-May  3  Acme Widgets — Hosting           $180.00   monthly
-May 12  Northside Design                 $1,500.00 quarterly
-May 15  Greenhaus Co                     $250.00   monthly
-May 19  Vela Collective                  $820.00   monthly retainer
+Apr 28  Example LLC                      $250.00   monthly retainer
+May  3  Acme Corp — Hosting           $180.00   monthly
+May 12  Example Design Co                 $1,500.00 quarterly
+May 15  Green Example                     $250.00   monthly
+May 19  Example Collective                  $820.00   monthly retainer
 ```
 
 ## Why this works

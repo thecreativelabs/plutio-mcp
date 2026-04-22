@@ -21,9 +21,9 @@ Before committing a 5% increase on 5 annual subscriptions:
                                  CURRENT    NEW      ∆
 Acme Corp — Dom Renewal   $360  → $441    +$20.85
 Acme Corp — Hosting       $500  → $650    +$30.84
-Bluehat LLC — Annual Retainer  $2,400.00  → $2,520  +$120.00
-Acme Widgets — SSL/Hosting       $180.00  → $189    +$9.00
-Vela Collective — Tools         $1,200.00 → $1,260  +$60.00
+Example LLC — Annual Retainer  $2,400.00  → $2,520  +$120.00
+Acme Corp — SSL/Hosting       $180.00  → $189    +$9.00
+Example Collective — Tools         $1,200.00 → $1,260  +$60.00
 
 Total annual lift: +$240.69
 Proceed? (yes/no)

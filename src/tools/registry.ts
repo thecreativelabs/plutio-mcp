@@ -103,7 +103,7 @@ export const RESOURCES: ResourceSpec[] = [
     path: "schedules",
     category: "scheduling",
     description:
-      "Availability schedules attached to projects, tasks, or bookable pages — days/hours of availability, time zones.",
+      "Per-person weekly availability schedules (working hours). Each record has `entityType: 'person'`, `entityId`, `isSharedPublicly`, and a 7-entry `days` array `[{isActive, times: [{start: 'HH:MM', end: 'HH:MM'}]}]` (index 0 = Sunday). Useful for querying 'who's available Tuesday at 2pm'. Note: booking pages (Calendly-like) are a separate feature — see the `scheduler` endpoint via `plutio_request` if configured.",
   },
   {
     name: "events",
@@ -128,8 +128,9 @@ export const RESOURCES: ResourceSpec[] = [
     path: "invoice-subscriptions",
     category: "financial",
     description:
-      "Recurring invoice subscriptions — auto-generate invoices on an interval. Fields include `repeat`, `mainInvoiceId`, `client`, `currency`.",
+      "Recurring invoice subscriptions (e.g. monthly retainers, annual renewals). Supports full RRULE (`repeat.rrule`). Key fields: `title`, `client`, `amount`, `currency`, `repeat: {intervalType, interval, rrule, monthDay, yearMonth, yearMonthDay, action}`, `mainInvoiceId`, `paymentOptions`, `status` (draft/active/paused/cancelled), `startDate`, `upcomingInvoiceDate`, `lastChargeAttemptedAt`. IMPORTANT: `get` by id is not supported — use `list` with a `_id` or title filter. Status transitions (pause/resume/cancel) are NOT settable via REST; update the record in Plutio's web UI.",
     bulk: true,
+    noGet: true,
   },
   {
     name: "transactions",
@@ -241,6 +242,18 @@ export const RESOURCES: ResourceSpec[] = [
     category: "files",
     description: "Uploaded files — metadata plus `url`, `handle`, `mimeType`, `size`, `linkedEntities`.",
     bulk: true,
+  },
+
+  // ─── Automation ──────────────────────────────────────────────────────────
+  {
+    name: "automations",
+    path: "automations",
+    category: "admin",
+    description:
+      "Plutio's native node-based automation system. Each record represents a workflow with `moduleId`, `status` (draft/active/paused), `nodes[]`, `edges[]`, `triggerType`, `triggerConfig`, `metadata: {runCount, errorCount}`, `triggerActivity: {runCount, successCount, failureCount, lastRun}`. Best used to audit what automations are configured. IMPORTANT: `get` by id and `delete` are blocked by Plutio's REST API — manage automations in the web UI. List + create are supported (a new POST creates an empty draft).",
+    noGet: true,
+    noDelete: true,
+    bulk: false,
   },
 
   // ─── Analytics / Admin ───────────────────────────────────────────────────

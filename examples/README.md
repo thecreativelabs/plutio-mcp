@@ -12,6 +12,9 @@ All examples are verified against a real Plutio workspace. Nothing here is hypot
 | [04](04-lead-qualification.md) | Qualify form responses into people records | `plutio_form_responses`, `plutio_people`, `plutio_workspace_schema` |
 | [05](05-custom-field-update.md) | Set a select-type custom field using schema introspection | `plutio_workspace_schema`, `plutio_people` |
 | [06](06-raw-request.md) | Use `plutio_request` as the escape hatch for undocumented endpoints | `plutio_request` |
+| [07](07-recurring-revenue-dashboard.md) | MRR / ARR dashboard from active subscriptions | `plutio_invoice_subscriptions` |
+| [08](08-upcoming-renewals.md) | List subscriptions billing in the next 30 days | `plutio_invoice_subscriptions`, `plutio_people` |
+| [09](09-subscription-bulk-adjustment.md) | Bulk-raise subscription amounts (pricing changes) | `plutio_invoice_subscriptions` |
 
 ## Tips
 

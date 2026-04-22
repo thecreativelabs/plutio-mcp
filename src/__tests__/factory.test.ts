@@ -82,6 +82,28 @@ describe("buildTools — writeable mode", () => {
   });
 });
 
+describe("noGet / noDelete respect per-resource constraints", () => {
+  const tools = buildTools(mockClient(), { readOnly: false });
+
+  it("omits the get action when noGet is set (e.g., invoice_subscriptions)", async () => {
+    const subsTool = tools.find((t) => t.name === "plutio_invoice_subscriptions")!;
+    expect(subsTool.description.toLowerCase()).not.toContain("get,");
+    await expect(subsTool.handler({ action: "get", id: "x" })).rejects.toThrow();
+  });
+
+  it("omits delete + bulk_delete when noDelete is set (e.g., automations)", async () => {
+    const autTool = tools.find((t) => t.name === "plutio_automations")!;
+    await expect(autTool.handler({ action: "delete", id: "x" })).rejects.toThrow();
+    await expect(autTool.handler({ action: "bulk_delete", ids: ["x"] })).rejects.toThrow();
+  });
+
+  it("still allows list + create on restricted resources", async () => {
+    const subsTool = tools.find((t) => t.name === "plutio_invoice_subscriptions")!;
+    await expect(subsTool.handler({ action: "list" })).resolves.toBeDefined();
+    await expect(subsTool.handler({ action: "create", data: { title: "t" } })).resolves.toBeDefined();
+  });
+});
+
 describe("mutations route through bulk endpoints", () => {
   it("update routes through /bulk (Plutio rejects single-record PUT)", async () => {
     const client = mockClient();

@@ -42,6 +42,10 @@ export interface ResourceSpec {
   bulk?: boolean;
   /** If true, hide the create/update/delete actions (some resources are read-only by design). */
   readOnly?: boolean;
+  /** If true, `GET /{resource}/{id}` returns 403 — hide the `get` action. Use list-with-filter instead. */
+  noGet?: boolean;
+  /** If true, `DELETE` isn't supported even as part of bulk — hide delete actions. */
+  noDelete?: boolean;
 }
 
 export interface ToolDefinition {
@@ -85,13 +89,18 @@ function buildSchema(spec: ResourceSpec, writeable: boolean) {
         ...PaginationSchema,
       })
       .describe("List or search records with optional filters and pagination."),
-    z
-      .object({
-        action: z.literal("get"),
-        id: z.string().min(1).describe("The record's _id"),
-      })
-      .describe("Fetch a single record by ID."),
   ];
+
+  if (!spec.noGet) {
+    members.push(
+      z
+        .object({
+          action: z.literal("get"),
+          id: z.string().min(1).describe("The record's _id"),
+        })
+        .describe("Fetch a single record by ID."),
+    );
+  }
 
   if (writeable && !spec.readOnly) {
     members.push(
@@ -108,13 +117,17 @@ function buildSchema(spec: ResourceSpec, writeable: boolean) {
           data: DataField,
         })
         .describe("Update an existing record (PUT — send the fields you want to change)."),
-      z
-        .object({
-          action: z.literal("delete"),
-          id: z.string().min(1),
-        })
-        .describe("Permanently delete a record."),
     );
+    if (!spec.noDelete) {
+      members.push(
+        z
+          .object({
+            action: z.literal("delete"),
+            id: z.string().min(1),
+          })
+          .describe("Permanently delete a record."),
+      );
+    }
 
     if (spec.archive) {
       members.push(
@@ -142,13 +155,17 @@ function buildSchema(spec: ResourceSpec, writeable: boolean) {
             data: DataField,
           })
           .describe("Apply the same update to many records."),
-        z
-          .object({
-            action: z.literal("bulk_delete"),
-            ids: z.array(z.string().min(1)).min(1).max(100),
-          })
-          .describe("Delete many records in one call."),
       );
+      if (!spec.noDelete) {
+        members.push(
+          z
+            .object({
+              action: z.literal("bulk_delete"),
+              ids: z.array(z.string().min(1)).min(1).max(100),
+            })
+            .describe("Delete many records in one call."),
+        );
+      }
       if (spec.archive) {
         members.push(
           z
@@ -166,12 +183,15 @@ function buildSchema(spec: ResourceSpec, writeable: boolean) {
 }
 
 function actionsListForSpec(spec: ResourceSpec, writeable: boolean): ResourceAction[] {
-  const actions: ResourceAction[] = ["list", "get"];
+  const actions: ResourceAction[] = ["list"];
+  if (!spec.noGet) actions.push("get");
   if (writeable && !spec.readOnly) {
-    actions.push("create", "update", "delete");
+    actions.push("create", "update");
+    if (!spec.noDelete) actions.push("delete");
     if (spec.archive) actions.push("archive", "unarchive");
     if (spec.bulk !== false) {
-      actions.push("bulk_update", "bulk_delete");
+      actions.push("bulk_update");
+      if (!spec.noDelete) actions.push("bulk_delete");
       if (spec.archive) actions.push("bulk_archive");
     }
   }

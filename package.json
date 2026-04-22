@@ -1,0 +1,60 @@
+{
+  "name": "@thecreativelabs/plutio-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for Plutio — CRM, projects, invoices, proposals, forms, time tracking, scheduling, and more.",
+  "type": "module",
+  "bin": {
+    "plutio-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "plutio",
+    "crm",
+    "claude",
+    "anthropic",
+    "project-management",
+    "invoicing",
+    "freelance",
+    "ai"
+  ],
+  "author": "TheCreativeLabs <help@thecreativelabs.io>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thecreativelabs/plutio-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thecreativelabs/plutio-mcp/issues"
+  },
+  "homepage": "https://github.com/thecreativelabs/plutio-mcp#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}

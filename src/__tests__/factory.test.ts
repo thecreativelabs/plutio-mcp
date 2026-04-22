@@ -29,15 +29,23 @@ function mockClient(): PlutioClient {
 describe("buildTools — read-only mode", () => {
   const tools = buildTools(mockClient(), { readOnly: true });
 
-  it("registers one tool per resource plus escape hatches", () => {
-    const escapeHatches = [
+  it("registers one tool per resource plus escape hatches plus analytics/compound", () => {
+    const nonResource = [
+      // escape hatches
       "plutio_api_reference",
       "plutio_workspace_schema",
       "plutio_rate_limit_status",
       "plutio_request",
+      // analytics
+      "plutio_mrr_snapshot",
+      "plutio_upcoming_renewals",
+      "plutio_invoice_aging",
+      "plutio_cashflow_forecast",
+      // compound
+      "plutio_client_360",
     ];
-    expect(tools.length).toBe(RESOURCES.length + escapeHatches.length);
-    for (const h of escapeHatches) {
+    expect(tools.length).toBe(RESOURCES.length + nonResource.length);
+    for (const h of nonResource) {
       expect(tools.find((t) => t.name === h)).toBeDefined();
     }
   });

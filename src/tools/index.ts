@@ -7,6 +7,13 @@ import {
   createRequestTool,
   createWorkspaceSchemaTool,
 } from "./escape-hatch.js";
+import {
+  createCashflowForecastTool,
+  createInvoiceAgingTool,
+  createMrrSnapshotTool,
+  createUpcomingRenewalsTool,
+} from "./analytics.js";
+import { createClient360Tool } from "./compound.js";
 
 export function buildTools(client: PlutioClient, options: { readOnly: boolean }): ToolDefinition[] {
   const writeable = !options.readOnly;
@@ -16,6 +23,11 @@ export function buildTools(client: PlutioClient, options: { readOnly: boolean })
     createWorkspaceSchemaTool(client),
     createRateLimitTool(client),
     createRequestTool(client, writeable),
+    createMrrSnapshotTool(client),
+    createUpcomingRenewalsTool(client),
+    createInvoiceAgingTool(client),
+    createCashflowForecastTool(client),
+    createClient360Tool(client),
     ...resourceTools,
   ];
 }

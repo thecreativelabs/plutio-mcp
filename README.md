@@ -16,6 +16,9 @@ Gives Claude (and any other MCP client) structured, safe access to **every major
 
 - **31 resource-group tools** covering CRM, project management, time tracking, financial, documents, forms, communication, scheduling, knowledge, files, automations, and admin.
 - **4 escape-hatch tools** (`plutio_api_reference`, `plutio_workspace_schema`, `plutio_rate_limit_status`, `plutio_request`) for edge cases, workspace introspection, and agent self-orientation.
+- **4 analytics tools** (`plutio_mrr_snapshot`, `plutio_upcoming_renewals`, `plutio_invoice_aging`, `plutio_cashflow_forecast`) — single-call reports that replace multi-step manual aggregations.
+- **1 compound lookup tool** (`plutio_client_360`) — fetches a person + their company + projects + invoices + subscriptions in one call.
+- **5 MCP resources** (`plutio://people/{id}`, `plutio://companies/{id}`, `plutio://projects/{id}`, `plutio://invoices/{id}`, `plutio://tasks/{id}`) for clients that support resource browsing.
 - **Read-only by default** — no accidental destructive writes until you explicitly enable them.
 - **OAuth2 with auto-refresh** — client-credentials grant; tokens refresh ~1 minute before expiry.
 - **Built-in rate limiting** — a token bucket capped at Plutio's 1000 req/hr default; requests queue transparently.
@@ -143,11 +146,24 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 - `plutio_automations` — Plutio's native node-based automation workflows *(list + create only; delete and single-GET are blocked by the REST API)*
 - `plutio_businesses` *(workspace settings — read-only)*
 
+### Analytics (v0.6.0)
+- `plutio_mrr_snapshot` — active subscriptions aggregated into MRR, ARR, by frequency, top clients.
+- `plutio_upcoming_renewals` — subs billing within the next N days (default 30), sorted by date.
+- `plutio_invoice_aging` — unpaid invoices bucketed by days overdue (current / 30–60 / 60–90 / 90+).
+- `plutio_cashflow_forecast` — projects expected income over N days by expanding each sub's recurrence.
+
+### Compound (v0.6.0)
+- `plutio_client_360` — one call, everything about a client: person + company + projects + invoices + subs.
+
 ### Escape hatches
-- `plutio_api_reference` — returns a compact map of every tool + API path. Call this first when unsure.
-- `plutio_workspace_schema` — introspects your workspace's custom fields. Returns `{entityType: {fieldTitle: {_id, inputType, options: {optionLabel: optionId}}}}`. Call this before any create/update that touches custom fields. Cached for 5 minutes.
+- `plutio_api_reference` — compact map of every tool + API path. Call first when unsure.
+- `plutio_workspace_schema` — introspects custom fields. Returns `{entityType: {fieldTitle: {_id, inputType, options: {optionLabel: optionId}}}}`. Cached 5 min.
 - `plutio_request` — raw API passthrough: `{ method, path, query?, body? }`.
 - `plutio_rate_limit_status` — remaining requests in the current hour.
+
+### MCP resources (v0.6.0)
+Some MCP clients let you browse typed resources. The server advertises these URI templates:
+- `plutio://people/{id}` · `plutio://companies/{id}` · `plutio://projects/{id}` · `plutio://invoices/{id}` · `plutio://tasks/{id}`
 
 ---
 

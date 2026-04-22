@@ -8,11 +8,12 @@ import { PlutioClient } from "./client.js";
 import type { Config } from "./config.js";
 import { PlutioError } from "./errors.js";
 import { Logger } from "./logger.js";
+import { registerResources } from "./resources.js";
 import { buildTools } from "./tools/index.js";
 import type { ToolDefinition } from "./tools/factory.js";
 
 const SERVER_NAME = "plutio-mcp";
-const SERVER_VERSION = "0.5.0";
+const SERVER_VERSION = "0.6.0";
 
 export function createServer(config: Config): {
   server: Server;
@@ -29,8 +30,10 @@ export function createServer(config: Config): {
 
   const server = new Server(
     { name: SERVER_NAME, version: SERVER_VERSION },
-    { capabilities: { tools: {} } },
+    { capabilities: { tools: {}, resources: {} } },
   );
+
+  registerResources(server, client);
 
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: tools.map((tool) => ({

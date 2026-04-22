@@ -4,6 +4,7 @@ A Model Context Protocol (MCP) server for [Plutio](https://www.plutio.com/) — 
 
 Gives Claude (and any other MCP client) structured, safe access to **every major resource in your Plutio workspace** via one concise tool per resource.
 
+[![CI](https://github.com/thecreativelabs/plutio-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/thecreativelabs/plutio-mcp/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E=20-brightgreen.svg)](#)
 [![MCP](https://img.shields.io/badge/MCP-1.x-purple.svg)](https://modelcontextprotocol.io/)

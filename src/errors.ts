@@ -33,8 +33,8 @@ export class PlutioError extends Error {
 }
 
 export class PlutioAuthError extends PlutioError {
-  constructor(message: string, body: unknown) {
-    super(message, 401, body);
+  constructor(message: string, body: unknown, status: number = 401) {
+    super(message, status, body);
     this.name = "PlutioAuthError";
   }
 }
@@ -54,6 +54,7 @@ export function mapHttpError(status: number, body: unknown, requestId?: string):
     return new PlutioAuthError(
       status === 401 ? "Unauthorized — check PLUTIO_CLIENT_ID and PLUTIO_CLIENT_SECRET" : "Forbidden",
       body,
+      status,
     );
   }
   if (status === 429) {

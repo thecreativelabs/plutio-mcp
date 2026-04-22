@@ -12,7 +12,7 @@ import { buildTools } from "./tools/index.js";
 import type { ToolDefinition } from "./tools/factory.js";
 
 const SERVER_NAME = "plutio-mcp";
-const SERVER_VERSION = "0.2.0";
+const SERVER_VERSION = "0.3.0";
 
 export function createServer(config: Config): {
   server: Server;

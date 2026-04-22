@@ -4,19 +4,26 @@ import { buildTools } from "../tools/index.js";
 import { RESOURCES } from "../tools/registry.js";
 
 function mockClient(): PlutioClient {
-  return {
+  // The factory routes single-record mutations through the bulk methods on the
+  // real client. The mocks match that: update/delete/archive/unarchive delegate
+  // to bulkUpdate/bulkDelete/bulkArchive just like production does.
+  const client = {
     list: vi.fn().mockResolvedValue({ data: [] }),
     get: vi.fn().mockResolvedValue({ _id: "1" }),
     create: vi.fn().mockResolvedValue({ _id: "new" }),
-    update: vi.fn().mockResolvedValue({ _id: "1" }),
-    delete: vi.fn().mockResolvedValue({ ok: true }),
-    archive: vi.fn().mockResolvedValue({ ok: true }),
     bulkUpdate: vi.fn().mockResolvedValue({ ok: true }),
     bulkDelete: vi.fn().mockResolvedValue({ ok: true }),
     bulkArchive: vi.fn().mockResolvedValue({ ok: true }),
     getRateLimitStatus: vi.fn().mockReturnValue({ available: 1000, capacity: 1000 }),
     request: vi.fn().mockResolvedValue({}),
-  } as unknown as PlutioClient;
+  } as unknown as PlutioClient & Record<string, unknown>;
+  client.update = vi.fn((path: string, id: string, data: Record<string, unknown>) =>
+    client.bulkUpdate(path, { _ids: [id], ...data }),
+  );
+  client.delete = vi.fn((path: string, id: string) => client.bulkDelete(path, [id]));
+  client.archive = vi.fn((path: string, id: string) => client.bulkArchive(path, [id], true));
+  client.unarchive = vi.fn((path: string, id: string) => client.bulkArchive(path, [id], false));
+  return client as PlutioClient;
 }
 
 describe("buildTools — read-only mode", () => {
@@ -67,6 +74,47 @@ describe("buildTools — writeable mode", () => {
   it("keeps designated-read-only resources (e.g. businesses) locked even in writeable mode", async () => {
     const businessesTool = tools.find((t) => t.name === "plutio_businesses")!;
     await expect(businessesTool.handler({ action: "create", data: {} })).rejects.toThrow();
+  });
+});
+
+describe("mutations route through bulk endpoints", () => {
+  it("update routes through /bulk (Plutio rejects single-record PUT)", async () => {
+    const client = mockClient();
+    const tools = buildTools(client, { readOnly: false });
+    const peopleTool = tools.find((t) => t.name === "plutio_people")!;
+
+    await peopleTool.handler({
+      action: "update",
+      id: "abc",
+      data: { role: "lead" },
+    });
+
+    expect(client.bulkUpdate).toHaveBeenCalledWith(
+      "people",
+      expect.objectContaining({ _ids: ["abc"], role: "lead" }),
+    );
+  });
+
+  it("delete routes through /bulk", async () => {
+    const client = mockClient();
+    const tools = buildTools(client, { readOnly: false });
+    const peopleTool = tools.find((t) => t.name === "plutio_people")!;
+
+    await peopleTool.handler({ action: "delete", id: "abc" });
+
+    expect(client.bulkDelete).toHaveBeenCalledWith("people", ["abc"]);
+  });
+
+  it("archive passes isArchived=true; unarchive passes isArchived=false", async () => {
+    const client = mockClient();
+    const tools = buildTools(client, { readOnly: false });
+    const peopleTool = tools.find((t) => t.name === "plutio_people")!;
+
+    await peopleTool.handler({ action: "archive", id: "abc" });
+    expect(client.bulkArchive).toHaveBeenLastCalledWith("people", ["abc"], true);
+
+    await peopleTool.handler({ action: "unarchive", id: "abc" });
+    expect(client.bulkArchive).toHaveBeenLastCalledWith("people", ["abc"], false);
   });
 });
 

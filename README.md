@@ -65,7 +65,9 @@ Restart Claude. You should now see `plutio_*` tools available.
 
 ### 4. Enable writes (when you trust it)
 
-Set `PLUTIO_READ_ONLY=false` to unlock `create`, `update`, `delete`, `archive`, and bulk operations.
+Set `PLUTIO_READ_ONLY=false` to unlock `create`, `update`, `delete`, `archive`, `unarchive`, and bulk operations.
+
+> **How writes actually work inside Plutio's API.** Plutio's public API only supports mutations via bulk endpoints — `PUT /{resource}/{id}` returns 403 everywhere. The MCP server handles this transparently: single-record `update`/`delete`/`archive`/`unarchive` actions route through `/bulk` internally, so from your perspective the tool interface is the usual single-record CRUD. You don't need to think about it — but it explains the version bump to 0.3.0.
 
 ---
 

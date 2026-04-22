@@ -119,15 +119,26 @@ export class PlutioClient {
     return this.request<T>({ method: "POST", path, body });
   }
 
-  update<T = unknown>(path: string, id: string, body: unknown): Promise<T> {
-    return this.request<T>({ method: "PUT", path: `${path}/${encodeURIComponent(id)}`, body });
+  // Plutio's API only supports mutations via /bulk endpoints — even for a single
+  // record. PUT /{resource}/{id} universally returns 403 "Method not allowed".
+  // These single-record helpers transparently route through the bulk API.
+  update<T = unknown>(path: string, id: string, body: Record<string, unknown>): Promise<T> {
+    return this.bulkUpdate<T>(path, { _ids: [id], ...body });
   }
 
   delete<T = unknown>(path: string, id: string): Promise<T> {
-    return this.request<T>({ method: "DELETE", path: `${path}/${encodeURIComponent(id)}` });
+    return this.bulkDelete<T>(path, [id]);
   }
 
-  bulkUpdate<T = unknown>(path: string, body: unknown): Promise<T> {
+  archive<T = unknown>(path: string, id: string): Promise<T> {
+    return this.bulkArchive<T>(path, [id], true);
+  }
+
+  unarchive<T = unknown>(path: string, id: string): Promise<T> {
+    return this.bulkArchive<T>(path, [id], false);
+  }
+
+  bulkUpdate<T = unknown>(path: string, body: Record<string, unknown>): Promise<T> {
     return this.request<T>({ method: "PUT", path: `${path}/bulk`, body });
   }
 
@@ -139,12 +150,12 @@ export class PlutioClient {
     });
   }
 
-  archive<T = unknown>(path: string, id: string): Promise<T> {
-    return this.request<T>({ method: "POST", path: `${path}/archive`, body: { _id: id } });
-  }
-
-  bulkArchive<T = unknown>(path: string, ids: string[]): Promise<T> {
-    return this.request<T>({ method: "POST", path: `${path}/bulk/archive`, body: { _ids: ids } });
+  bulkArchive<T = unknown>(path: string, ids: string[], isArchived = true): Promise<T> {
+    return this.request<T>({
+      method: "POST",
+      path: `${path}/bulk/archive`,
+      body: { _ids: ids, isArchived },
+    });
   }
 
   getRateLimitStatus(): { available: number; capacity: number } {

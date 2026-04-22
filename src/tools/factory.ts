@@ -9,6 +9,7 @@ export type ResourceAction =
   | "update"
   | "delete"
   | "archive"
+  | "unarchive"
   | "bulk_update"
   | "bulk_delete"
   | "bulk_archive";
@@ -122,7 +123,13 @@ function buildSchema(spec: ResourceSpec, writeable: boolean) {
             action: z.literal("archive"),
             id: z.string().min(1),
           })
-          .describe("Archive a record (reversible)."),
+          .describe("Archive a record (reversible — use 'unarchive' to restore)."),
+        z
+          .object({
+            action: z.literal("unarchive"),
+            id: z.string().min(1),
+          })
+          .describe("Restore an archived record."),
       );
     }
 
@@ -162,7 +169,7 @@ function actionsListForSpec(spec: ResourceSpec, writeable: boolean): ResourceAct
   const actions: ResourceAction[] = ["list", "get"];
   if (writeable && !spec.readOnly) {
     actions.push("create", "update", "delete");
-    if (spec.archive) actions.push("archive");
+    if (spec.archive) actions.push("archive", "unarchive");
     if (spec.bulk !== false) {
       actions.push("bulk_update", "bulk_delete");
       if (spec.archive) actions.push("bulk_archive");
@@ -236,11 +243,13 @@ async function dispatch(
     case "create":
       return client.create(path, args.data);
     case "update":
-      return client.update(path, args.id as string, args.data);
+      return client.update(path, args.id as string, args.data as Record<string, unknown>);
     case "delete":
       return client.delete(path, args.id as string);
     case "archive":
       return client.archive(path, args.id as string);
+    case "unarchive":
+      return client.unarchive(path, args.id as string);
     case "bulk_update":
       return client.bulkUpdate(path, { _ids: args.ids, ...(args.data as object) });
     case "bulk_delete":

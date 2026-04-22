@@ -3,6 +3,18 @@ import type { PlutioClient } from "../client.js";
 import type { ToolDefinition } from "./factory.js";
 import { RESOURCES } from "./registry.js";
 
+interface CustomFieldRecord {
+  _id: string;
+  entityType: string;
+  inputType: string;
+  title: string;
+  options?: Array<{ _id: string; name?: string; title?: string }>;
+  allowCreate?: boolean;
+  min?: number;
+  max?: number;
+  isAddedByDefault?: boolean;
+}
+
 export function createRequestTool(client: PlutioClient, writeable: boolean): ToolDefinition {
   const methods = writeable
     ? (["GET", "POST", "PUT", "DELETE", "PATCH"] as const)
@@ -95,5 +107,80 @@ export function createRateLimitTool(client: PlutioClient): ToolDefinition {
       "Report how many Plutio API requests this server can still make in the current hour. Useful for pacing bulk operations.",
     inputSchema: z.object({}),
     handler: async () => client.getRateLimitStatus(),
+  };
+}
+
+export function createWorkspaceSchemaTool(client: PlutioClient): ToolDefinition {
+  // 5-minute cache so repeat calls in a conversation are cheap.
+  let cache: {
+    fetchedAt: number;
+    fields: CustomFieldRecord[];
+  } | null = null;
+  const ttlMs = 5 * 60 * 1000;
+
+  const schema = z.object({
+    entity: z
+      .string()
+      .optional()
+      .describe(
+        "Filter to one entity type (e.g. 'person', 'proposal', 'invoice', 'project'). Omit for all entities.",
+      ),
+    refresh: z
+      .boolean()
+      .optional()
+      .describe("Bypass the 5-minute cache and fetch fresh from Plutio."),
+    includeRaw: z
+      .boolean()
+      .optional()
+      .describe("Include the full raw field definitions (default: compact view)."),
+  });
+
+  return {
+    name: "plutio_workspace_schema",
+    description:
+      "Introspect this Plutio workspace's custom fields. Returns a compact per-entity map of every custom field's _id, inputType, and (for select fields) option titles → ids. Call this BEFORE creating/updating records that involve custom fields so you can build the correct `customFields: [{_id, value}]` payload. Cached for 5 minutes.",
+    inputSchema: schema,
+    handler: async (rawArgs) => {
+      const { entity, refresh, includeRaw } = schema.parse(rawArgs);
+
+      if (!cache || refresh || Date.now() - cache.fetchedAt > ttlMs) {
+        const fields = await client.list<CustomFieldRecord[]>("custom-fields", { limit: 500 });
+        cache = {
+          fetchedAt: Date.now(),
+          fields: Array.isArray(fields) ? fields : [],
+        };
+      }
+
+      const filtered = entity
+        ? cache.fields.filter((f) => f.entityType === entity)
+        : cache.fields;
+
+      const byEntity: Record<string, Record<string, unknown>> = {};
+      for (const f of filtered) {
+        const e = f.entityType || "(unknown)";
+        byEntity[e] ??= {};
+        const compact: Record<string, unknown> = {
+          _id: f._id,
+          inputType: f.inputType,
+        };
+        if (f.options && f.options.length > 0) {
+          compact.options = Object.fromEntries(
+            f.options.map((o) => [o.name ?? o.title ?? o._id, o._id]),
+          );
+        }
+        if (f.min !== undefined) compact.min = f.min;
+        if (f.max !== undefined) compact.max = f.max;
+        if (f.isAddedByDefault) compact.isAddedByDefault = true;
+        byEntity[e][f.title] = includeRaw ? f : compact;
+      }
+
+      return {
+        entities: byEntity,
+        totalFields: filtered.length,
+        cacheAgeMs: Date.now() - cache.fetchedAt,
+        usage:
+          "To set a custom field on a create/update: include `customFields: [{_id: <field_id>, value: <value>}]` in the record data. For select fields, `value` must be one of the option _ids from this map.",
+      };
+    },
   };
 }

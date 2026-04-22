@@ -5,6 +5,7 @@ import {
   createApiReferenceTool,
   createRateLimitTool,
   createRequestTool,
+  createWorkspaceSchemaTool,
 } from "./escape-hatch.js";
 
 export function buildTools(client: PlutioClient, options: { readOnly: boolean }): ToolDefinition[] {
@@ -12,6 +13,7 @@ export function buildTools(client: PlutioClient, options: { readOnly: boolean })
   const resourceTools = RESOURCES.map((spec) => createResourceTool(spec, client, writeable));
   return [
     createApiReferenceTool(),
+    createWorkspaceSchemaTool(client),
     createRateLimitTool(client),
     createRequestTool(client, writeable),
     ...resourceTools,

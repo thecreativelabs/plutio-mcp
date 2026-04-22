@@ -144,6 +144,7 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 
 ### Escape hatches
 - `plutio_api_reference` — returns a compact map of every tool + API path. Call this first when unsure.
+- `plutio_workspace_schema` — introspects your workspace's custom fields. Returns `{entityType: {fieldTitle: {_id, inputType, options: {optionLabel: optionId}}}}`. Call this before any create/update that touches custom fields. Cached for 5 minutes.
 - `plutio_request` — raw API passthrough: `{ method, path, query?, body? }`.
 - `plutio_rate_limit_status` — remaining requests in the current hour.
 
@@ -158,6 +159,10 @@ Once configured, try these in Claude:
 - "Show me form responses from the last 7 days that haven't been converted to people yet."
 - "How much billable time did I log against project ABC in March?"
 - *(with writes enabled)* "Create a follow-up task on project ABC due next Monday."
+
+### 📖 See [`examples/`](examples/) for 6 fully worked end-to-end workflows
+
+Each example shows the user prompt, the exact tool calls Claude will make, and a realistic answer. All verified against a live workspace.
 
 ---
 

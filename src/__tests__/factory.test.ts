@@ -30,7 +30,12 @@ describe("buildTools — read-only mode", () => {
   const tools = buildTools(mockClient(), { readOnly: true });
 
   it("registers one tool per resource plus escape hatches", () => {
-    const escapeHatches = ["plutio_api_reference", "plutio_rate_limit_status", "plutio_request"];
+    const escapeHatches = [
+      "plutio_api_reference",
+      "plutio_workspace_schema",
+      "plutio_rate_limit_status",
+      "plutio_request",
+    ];
     expect(tools.length).toBe(RESOURCES.length + escapeHatches.length);
     for (const h of escapeHatches) {
       expect(tools.find((t) => t.name === h)).toBeDefined();

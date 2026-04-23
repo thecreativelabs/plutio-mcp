@@ -1,0 +1,60 @@
+{
+  "slug": "coaching",
+  "displayName": "1:1 coaching engagement",
+  "description": "Starter proposal for an individual coaching engagement: intake, recurring sessions, between-session support.",
+  "defaultCurrency": "USD",
+  "billableItems": [
+    {
+      "title": "Intake & goal-setting session (90 min)",
+      "descriptionHTML": "<p>Deep intake conversation, shared agreement on what success looks like, and a written plan for the coaching period.</p>",
+      "quantity": 1,
+      "amount": 500,
+      "tax": "0%"
+    },
+    {
+      "title": "Coaching sessions (12 × 60 min)",
+      "descriptionHTML": "<p>Twelve weekly one-hour sessions. Recorded when you want them recorded, confidential either way. Written recap within 24 hours of each session.</p>",
+      "quantity": 12,
+      "amount": 250,
+      "tax": "0%"
+    },
+    {
+      "title": "Between-session support (12 weeks)",
+      "descriptionHTML": "<p>Async access over email/WhatsApp between sessions for short questions and accountability nudges. Response within one business day.</p>",
+      "quantity": 1,
+      "amount": 600,
+      "tax": "0%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro",
+      "textHTML": "<h1>Coaching engagement</h1><p>Twelve weeks. Clear goals. Weekly accountability. No fluff.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What you're committing to</h2><p>Twelve consecutive weeks of weekly one-hour sessions, completed intake in week one, and honest effort on the commitments we set together between sessions. Coaching only works when the person being coached shows up prepared to do the work.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What I'm committing to</h2><ul><li>Prepared, undistracted attention for every session</li><li>A written recap within 24 hours, every time</li><li>Honest feedback — including the uncomfortable kind</li><li>Strict confidentiality. Nothing leaves the room.</li></ul>"
+    },
+    {
+      "type": "items"
+    },
+    {
+      "type": "fees"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Scheduling & cancellations</h2><p>Sessions are held at a consistent weekly time chosen in intake. Cancellations with less than 24 hours notice count as used sessions unless there's a genuine emergency. If I need to cancel on short notice I owe you a replacement within the same week.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Terms</h2><ul><li>Engagement fee paid in full upfront OR in three monthly installments.</li><li>If we mutually agree the engagement isn't a fit after session four, the remaining balance is refunded.</li><li>Sessions not used within the 12-week window expire.</li></ul>"
+    },
+    {
+      "type": "signature"
+    }
+  ]
+}

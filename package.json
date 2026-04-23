@@ -1,6 +1,6 @@
 {
   "name": "@thecreativelabs/plutio-mcp",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Model Context Protocol server for Plutio — CRM, projects, invoices, proposals, forms, time tracking, scheduling, and more.",
   "type": "module",
   "bin": {
@@ -9,11 +9,12 @@
   "main": "./dist/index.js",
   "files": [
     "dist",
+    "scripts",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-presets.mjs",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",

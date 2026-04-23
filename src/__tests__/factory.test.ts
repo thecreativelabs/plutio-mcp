@@ -43,6 +43,10 @@ describe("buildTools — read-only mode", () => {
       "plutio_cashflow_forecast",
       // compound
       "plutio_client_360",
+      // proposals
+      "plutio_list_proposal_presets",
+      "plutio_proposal_from_preset",
+      "plutio_analyze_proposal",
     ];
     expect(tools.length).toBe(RESOURCES.length + nonResource.length);
     for (const h of nonResource) {

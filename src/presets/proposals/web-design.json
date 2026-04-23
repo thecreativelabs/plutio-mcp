@@ -1,0 +1,67 @@
+{
+  "slug": "web-design",
+  "displayName": "Web design & development",
+  "description": "Starter proposal for a standard website engagement: discovery, design, development, launch.",
+  "defaultCurrency": "USD",
+  "billableItems": [
+    {
+      "title": "Discovery & strategy",
+      "descriptionHTML": "<p>Kickoff workshops, stakeholder interviews, content inventory, technical audit, and a brief that aligns the project with your business goals.</p>",
+      "quantity": 1,
+      "amount": 2500,
+      "tax": "0%"
+    },
+    {
+      "title": "Design (desktop + mobile)",
+      "descriptionHTML": "<p>Mood boards, wireframes, and high-fidelity designs for up to 5 key pages, with responsive mobile layouts. Two revision rounds included.</p>",
+      "quantity": 1,
+      "amount": 5000,
+      "tax": "0%"
+    },
+    {
+      "title": "Development & CMS build",
+      "descriptionHTML": "<p>Semantic, accessible front-end build. CMS integration so your team can edit content without us. Standard performance and SEO best practices applied.</p>",
+      "quantity": 1,
+      "amount": 7500,
+      "tax": "0%"
+    },
+    {
+      "title": "QA, launch & handoff",
+      "descriptionHTML": "<p>Cross-browser testing, accessibility review, analytics setup, a launch-day runbook, and a training session so your team can run the site confidently.</p>",
+      "quantity": 1,
+      "amount": 1500,
+      "tax": "0%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro",
+      "textHTML": "<h1>Website proposal</h1><p>Prepared for you — a focused engagement to design, build, and launch a website that actually earns its keep.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Why you</h2><p>You've built something worth showing off, and the current site isn't doing it justice. Visitors don't get a clear answer to 'what's here for me' within ten seconds, and conversion paths are scattered. We think there's an opportunity to sharpen the story, tighten the structure, and ship a site that pays for itself within the first two quarters after launch.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Approach</h2><p>We work in four short phases (discovery, design, development, launch) with a fixed scope for each. You approve at the end of every phase before we move on — no surprises, no drift. Weekly 30-minute check-ins keep things moving without consuming your calendar.</p>"
+    },
+    {
+      "type": "items"
+    },
+    {
+      "type": "fees"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Timeline</h2><p>Six to eight weeks from kickoff to launch, assuming timely review turnarounds from your side. Detailed milestone schedule is shared at the discovery phase once we see the full content inventory.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Terms</h2><ul><li>50% deposit to start; balance at launch.</li><li>Rights transfer to you on final payment.</li><li>One round of post-launch bugfix support included for 30 days.</li><li>Change requests beyond original scope are quoted separately.</li></ul>"
+    },
+    {
+      "type": "signature"
+    }
+  ]
+}

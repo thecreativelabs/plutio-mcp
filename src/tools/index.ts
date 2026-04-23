@@ -14,6 +14,11 @@ import {
   createUpcomingRenewalsTool,
 } from "./analytics.js";
 import { createClient360Tool } from "./compound.js";
+import {
+  createAnalyzeProposalTool,
+  createListProposalPresetsTool,
+  createProposalFromPresetTool,
+} from "./proposals.js";
 
 export function buildTools(client: PlutioClient, options: { readOnly: boolean }): ToolDefinition[] {
   const writeable = !options.readOnly;
@@ -28,6 +33,9 @@ export function buildTools(client: PlutioClient, options: { readOnly: boolean })
     createInvoiceAgingTool(client),
     createCashflowForecastTool(client),
     createClient360Tool(client),
+    createListProposalPresetsTool(),
+    createProposalFromPresetTool(client),
+    createAnalyzeProposalTool(client),
     ...resourceTools,
   ];
 }

@@ -1,0 +1,60 @@
+{
+  "slug": "consulting",
+  "displayName": "Strategic consulting engagement",
+  "description": "Fixed-scope consulting: diagnostic, recommendation report, and implementation support window.",
+  "defaultCurrency": "USD",
+  "billableItems": [
+    {
+      "title": "Diagnostic phase",
+      "descriptionHTML": "<p>Stakeholder interviews, data review, and context gathering. Week-one goal: we agree on what problem we're really solving before designing the solution.</p>",
+      "quantity": 1,
+      "amount": 4000,
+      "tax": "0%"
+    },
+    {
+      "title": "Recommendation report + workshop",
+      "descriptionHTML": "<p>Written recommendations with trade-off analysis, a half-day workshop with your leadership team to align on priorities, and a sequenced 90-day plan.</p>",
+      "quantity": 1,
+      "amount": 6000,
+      "tax": "0%"
+    },
+    {
+      "title": "Implementation support (30 days)",
+      "descriptionHTML": "<p>Weekly 60-minute working sessions, async review of work product, and on-demand Slack access during business hours for 30 days after the workshop.</p>",
+      "quantity": 1,
+      "amount": 5000,
+      "tax": "0%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro",
+      "textHTML": "<h1>Consulting proposal</h1><p>A focused engagement to diagnose, decide, and execute — no 80-page decks, no endless workshops.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>The problem as I understand it</h2><p>We've talked through where you are and where you want to be. There's a gap, and you don't have the bandwidth internally to close it without pulling attention from the commitments already on your plate. I can absorb that thinking work for you so your team can keep shipping.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>How I work</h2><p>Short diagnostic (two weeks, not two months), one consolidated recommendation with real trade-offs, then a month of elbow-to-elbow support so the recommendations actually land. I deliver in writing — decks are by exception, not default.</p>"
+    },
+    {
+      "type": "items"
+    },
+    {
+      "type": "fees"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What you'll have at the end</h2><ul><li>A clear written diagnosis of the situation</li><li>A sequenced plan with owner, effort, and expected outcome per step</li><li>A leadership team aligned on priorities</li><li>30 days of implementation pressure so the plan actually starts</li></ul>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Terms</h2><ul><li>Diagnostic paid on engagement start.</li><li>Recommendation + workshop billed on delivery.</li><li>Implementation support billed at start of the 30-day window.</li><li>Everything produced is yours; I retain no rights beyond case-study permission (optional).</li></ul>"
+    },
+    {
+      "type": "signature"
+    }
+  ]
+}

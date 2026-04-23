@@ -163,6 +163,11 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 ### Compound (v0.6.0)
 - `plutio_client_360` — one call, everything about a client: person + company + projects + invoices + subs.
 
+### Proposal builder (v0.8.0)
+- `plutio_list_proposal_presets` — see shipped presets (web-design, seo-services, consulting, creative-services, coaching).
+- `plutio_proposal_from_preset` — create a fully-populated proposal (blocks + items + client link) in one call.
+- `plutio_analyze_proposal` — inspect a past proposal's structure to mirror it for a new client.
+
 ### Escape hatches
 - `plutio_api_reference` — compact map of every tool + API path. Call first when unsure.
 - `plutio_workspace_schema` — introspects custom fields. Returns `{entityType: {fieldTitle: {_id, inputType, options: {optionLabel: optionId}}}}`. Cached 5 min.

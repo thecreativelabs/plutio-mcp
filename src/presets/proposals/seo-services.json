@@ -1,0 +1,67 @@
+{
+  "slug": "seo-services",
+  "displayName": "SEO audit & ongoing optimization",
+  "description": "Starter proposal for a 90-day SEO engagement: technical audit, keyword research, on-page work, and monthly reporting.",
+  "defaultCurrency": "USD",
+  "billableItems": [
+    {
+      "title": "Technical + content audit",
+      "descriptionHTML": "<p>Full crawl and indexability review, Core Web Vitals assessment, schema audit, content inventory, and a prioritized issues list with remediation estimates.</p>",
+      "quantity": 1,
+      "amount": 2000,
+      "tax": "0%"
+    },
+    {
+      "title": "Keyword research & content strategy",
+      "descriptionHTML": "<p>Target-keyword map tied to your commercial pages, competitor gap analysis, and a 90-day content calendar aligned with your funnel.</p>",
+      "quantity": 1,
+      "amount": 1500,
+      "tax": "0%"
+    },
+    {
+      "title": "On-page optimization",
+      "descriptionHTML": "<p>Title tags, meta descriptions, heading structure, internal linking, image optimization, and schema markup on up to 20 priority pages.</p>",
+      "quantity": 1,
+      "amount": 3000,
+      "tax": "0%"
+    },
+    {
+      "title": "Monthly retainer (reporting + ongoing)",
+      "descriptionHTML": "<p>Monthly ranking and traffic report, content publishing, link-building outreach, and ongoing technical maintenance. Billed monthly for the first 3 months.</p>",
+      "quantity": 3,
+      "amount": 1250,
+      "tax": "0%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro",
+      "textHTML": "<h1>SEO proposal</h1><p>A pragmatic 90-day plan to fix what's broken, capture what's missed, and build durable organic traffic.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What we're solving</h2><p>Your traffic curve has flattened and the pages you care about aren't ranking for the queries your customers actually type. We'll diagnose the underlying issues (technical, content, or both), fix the ones that move the needle fastest, and put a repeatable publishing cadence in place so momentum compounds.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Deliverables</h2><ul><li>Full technical + content audit with prioritized fix list</li><li>Keyword and content strategy aligned to revenue goals</li><li>On-page optimization on up to 20 priority pages</li><li>Monthly reporting with clear before/after deltas</li></ul>"
+    },
+    {
+      "type": "items"
+    },
+    {
+      "type": "fees"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What we expect to measure</h2><p>Traffic to target pages, share-of-voice on target keyword clusters, and organic-sourced pipeline. Baseline set in week one so every number has context.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Terms</h2><ul><li>Audit + strategy paid upfront on acceptance.</li><li>On-page optimization billed on completion.</li><li>Monthly retainer billed on the 1st of each month.</li><li>Either party may cancel the retainer with 30 days notice.</li></ul>"
+    },
+    {
+      "type": "signature"
+    }
+  ]
+}

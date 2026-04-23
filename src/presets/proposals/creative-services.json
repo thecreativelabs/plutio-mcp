@@ -1,0 +1,60 @@
+{
+  "slug": "creative-services",
+  "displayName": "Creative & brand services",
+  "description": "Starter proposal for brand identity, marketing collateral, or campaign creative work.",
+  "defaultCurrency": "USD",
+  "billableItems": [
+    {
+      "title": "Creative brief & direction",
+      "descriptionHTML": "<p>Client interviews, competitive audit, moodboard exploration, and a written creative brief we'll both reference for the rest of the project.</p>",
+      "quantity": 1,
+      "amount": 1500,
+      "tax": "0%"
+    },
+    {
+      "title": "Core deliverables",
+      "descriptionHTML": "<p>The primary creative assets as scoped in the brief — typically a logo system, typography, color palette, and a small set of application examples. Two concept directions, two rounds of revision on the chosen path.</p>",
+      "quantity": 1,
+      "amount": 6000,
+      "tax": "0%"
+    },
+    {
+      "title": "Rollout kit",
+      "descriptionHTML": "<p>Production-ready files in every format your team or printer needs, a one-page usage guide, and a brief handoff call so your team can run with it.</p>",
+      "quantity": 1,
+      "amount": 1500,
+      "tax": "0%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro",
+      "textHTML": "<h1>Creative proposal</h1><p>A clear scope, two concept directions, and a finished system your team can actually use.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What we heard</h2><p>You need a visual system that tells the story you're telling in conversation — sharper, more confident, and consistent across the places your customers actually meet you. The current assets don't match the ambition of the business, and that mismatch is costing you more than you'd think.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What we'll make</h2><ul><li>A written creative brief that anchors every decision</li><li>Two distinct concept directions (not five mushy variations)</li><li>A finished core system: logo, typography, color, application examples</li><li>Production-ready files in every format you need</li></ul>"
+    },
+    {
+      "type": "items"
+    },
+    {
+      "type": "fees"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Timeline</h2><p>Four to six weeks from kickoff to final rollout kit, depending on how quickly decisions can be made on your side. We'll set a schedule together during kickoff.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Terms</h2><ul><li>50% deposit on engagement start.</li><li>40% on approval of core deliverables.</li><li>10% on rollout-kit delivery.</li><li>Rights transfer to you on final payment. We reserve the right to showcase the work in our portfolio unless you ask otherwise in writing.</li></ul>"
+    },
+    {
+      "type": "signature"
+    }
+  ]
+}

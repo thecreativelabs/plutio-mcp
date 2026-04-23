@@ -2,6 +2,7 @@
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { loadConfig } from "./config.js";
+import { startHttpServer } from "./http-transport.js";
 import { createServer } from "./server.js";
 
 async function main() {
@@ -24,6 +25,30 @@ async function main() {
   }
 
   const { server, logger } = createServer(config);
+
+  if (config.httpMode) {
+    const httpServer = await startHttpServer({
+      port: config.httpPort,
+      host: config.httpHost,
+      authToken: config.authToken,
+      mcpServer: server,
+      logger,
+    });
+    const shutdown = async (signal: string) => {
+      logger.info(`received ${signal}, shutting down HTTP server`);
+      await new Promise<void>((resolve) => httpServer.close(() => resolve()));
+      try {
+        await server.close();
+      } catch (err) {
+        logger.warn("error during shutdown", err);
+      }
+      process.exit(0);
+    };
+    process.on("SIGINT", () => void shutdown("SIGINT"));
+    process.on("SIGTERM", () => void shutdown("SIGTERM"));
+    return;
+  }
+
   const transport = new StdioServerTransport();
 
   const shutdown = async (signal: string) => {

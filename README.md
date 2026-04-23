@@ -67,7 +67,11 @@ Add to your MCP config (`~/Library/Application Support/Claude/claude_desktop_con
 
 Restart Claude. You should now see `plutio_*` tools available.
 
-### 4. Enable writes (when you trust it)
+### 4. Using ChatGPT?
+
+`plutio-mcp` speaks HTTP natively since v0.7.0. Set `PLUTIO_MCP_HTTP=true` and the server listens on `http://<host>:<port>/mcp` instead of stdio. See [examples/10-chatgpt-setup.md](examples/10-chatgpt-setup.md) for the full walkthrough (local + ngrok, or hosted on Fly.io).
+
+### 5. Enable writes (when you trust it)
 
 Set `PLUTIO_READ_ONLY=false` to unlock `create`, `update`, `delete`, `archive`, `unarchive`, and bulk operations.
 
@@ -87,6 +91,10 @@ Set `PLUTIO_READ_ONLY=false` to unlock `create`, `update`, `delete`, `archive`, 
 | `PLUTIO_OAUTH_URL` | no | `$PLUTIO_API_BASE/oauth/token` | Override for the token endpoint |
 | `PLUTIO_MAX_REQUESTS_PER_HOUR` | no | `1000` | Raise if you have a higher-tier Plutio plan |
 | `PLUTIO_LOG_LEVEL` | no | `info` | `error` / `warn` / `info` / `debug` |
+| `PLUTIO_MCP_HTTP` | no | `false` | Set `true` to run as an HTTP server (needed for ChatGPT and remote deployments) |
+| `PLUTIO_MCP_HTTP_PORT` | no | `8080` | HTTP port when in HTTP mode |
+| `PLUTIO_MCP_HTTP_HOST` | no | `127.0.0.1` | HTTP host. Set to `0.0.0.0` for remote access (e.g. behind ngrok) |
+| `PLUTIO_MCP_AUTH_TOKEN` | no | — | If set, HTTP requests must carry `Authorization: Bearer <token>`. Strongly recommended when exposing publicly |
 
 See [`.env.example`](.env.example).
 

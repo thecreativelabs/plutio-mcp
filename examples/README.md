@@ -15,6 +15,7 @@ All examples are verified against a real Plutio workspace. Nothing here is hypot
 | [07](07-recurring-revenue-dashboard.md) | MRR / ARR dashboard from active subscriptions | `plutio_invoice_subscriptions` |
 | [08](08-upcoming-renewals.md) | List subscriptions billing in the next 30 days | `plutio_invoice_subscriptions`, `plutio_people` |
 | [09](09-subscription-bulk-adjustment.md) | Bulk-raise subscription amounts (pricing changes) | `plutio_invoice_subscriptions` |
+| [10](10-chatgpt-setup.md) | Using plutio-mcp from ChatGPT (HTTP mode + ngrok) | — |
 
 ## Tips
 

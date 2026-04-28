@@ -9,3 +9,7 @@ coverage/
 .vscode/
 .idea/
 *.tsbuildinfo
+
+# User's extracted Plutio templates (their proprietary content). Stays local
+# unless explicitly promoted to src/presets/ for sharing.
+private/

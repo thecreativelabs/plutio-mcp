@@ -50,6 +50,8 @@ describe("buildTools — read-only mode", () => {
       // contracts
       "plutio_list_contract_presets",
       "plutio_contract_from_preset",
+      // template extractor
+      "plutio_template_to_preset",
     ];
     expect(tools.length).toBe(RESOURCES.length + nonResource.length);
     for (const h of nonResource) {

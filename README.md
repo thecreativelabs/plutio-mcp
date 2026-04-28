@@ -172,6 +172,9 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 - `plutio_list_contract_presets` — shipped presets (`service-agreement`, `nda`).
 - `plutio_contract_from_preset` — create a contract end-to-end with `{{ variable }}` substitution. **Note:** shipped presets contain TODO placeholders for legal clauses — replace before sending for signature.
 
+### Template extractor (v0.10.0)
+- `plutio_template_to_preset` — read any of your existing Plutio contract/proposal templates and emit a preset JSON ready for the builders. Run once per template, save to disk, your real prose becomes available to AI generation forever. See [examples/13](examples/13-template-extraction.md).
+
 ### Escape hatches
 - `plutio_api_reference` — compact map of every tool + API path. Call first when unsure.
 - `plutio_workspace_schema` — introspects custom fields. Returns `{entityType: {fieldTitle: {_id, inputType, options: {optionLabel: optionId}}}}`. Cached 5 min.

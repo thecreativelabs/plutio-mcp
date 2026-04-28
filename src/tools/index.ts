@@ -23,6 +23,7 @@ import {
   createContractFromPresetTool,
   createListContractPresetsTool,
 } from "./contracts.js";
+import { createTemplateToPresetTool } from "./template-extractor.js";
 
 export function buildTools(client: PlutioClient, options: { readOnly: boolean }): ToolDefinition[] {
   const writeable = !options.readOnly;
@@ -42,6 +43,7 @@ export function buildTools(client: PlutioClient, options: { readOnly: boolean })
     createAnalyzeProposalTool(client),
     createListContractPresetsTool(),
     createContractFromPresetTool(client),
+    createTemplateToPresetTool(client),
     ...resourceTools,
   ];
 }

@@ -23,19 +23,16 @@ const FIELD_TYPES = [
   "file",
 ] as const;
 
-const ENTITY_TYPES = [
-  "person",
-  "company",
-  "project",
-  "task",
-  "invoice",
-  "proposal",
-  "contract",
-  "form",
-  "event",
-  "time-track",
-  "item",
-] as const;
+/**
+ * Plutio's valid `entityType` values for custom fields. Sourced empirically —
+ * the API accepts hyphenated singular forms (e.g. "invoice-subscription").
+ * Kept loose (z.string) at the schema layer so Plutio's server is the source
+ * of truth; this list is documentation only.
+ *
+ * Confirmed valid: person, company, project, task, invoice, proposal,
+ * contract, form, event, time-track, item, invoice-subscription, file,
+ * messenger, scheduler, transaction, workspace.
+ */
 
 interface CustomFieldDefinition {
   entityType: string;
@@ -117,7 +114,12 @@ export function createApplyCustomFieldsBundleTool(client: PlutioClient): ToolDef
       fields: z
         .array(
           z.object({
-            entityType: z.enum(ENTITY_TYPES),
+            entityType: z
+              .string()
+              .min(1)
+              .describe(
+                "One of: person, company, project, task, invoice, proposal, contract, form, event, time-track, item, invoice-subscription, file, messenger, scheduler, transaction, workspace.",
+              ),
             inputType: z.enum(FIELD_TYPES),
             title: z.string().min(1),
             options: z.array(z.object({ name: z.string() })).optional(),

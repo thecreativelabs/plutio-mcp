@@ -8,7 +8,7 @@ Plutio's REST API doesn't let you UPDATE template content (that's web-UI only â€
 
 ### Prompt
 
-> Extract my "Standard Agreement for Web Design Services" Plutio contract template into a preset and save it to disk.
+> Extract my "Master Services Agreement" Plutio contract template into a preset and save it to disk.
 
 ### What Claude will do
 
@@ -16,7 +16,7 @@ Plutio's REST API doesn't let you UPDATE template content (that's web-UI only â€
 {
   "tool": "plutio_template_to_preset",
   "arguments": {
-    "templateName": "web design",
+    "templateName": "master services",
     "entityType": "contract",
     "writeToDisk": true
   }
@@ -26,16 +26,16 @@ Plutio's REST API doesn't let you UPDATE template content (that's web-UI only â€
 ### Example answer
 
 ```
-template: STANDARD AGREEMENT FOR WEB DESIGN SERVICES
-  body id: wBfBi7jbk7PLhKhub
+template: MASTER SERVICES AGREEMENT
+  body id: template_body_abc123
   block type distribution: { content: 1, signature: 1 }
-  preset slug: standard-agreement-for-web-design-services
+  preset slug: master-services-agreement
   blocks extracted: 2
 
-Saved to: src/presets/contracts/standard-agreement-for-web-design-services.json
+Saved to: src/presets/contracts/master-services-agreement.json
 
 Use it: plutio_contract_from_preset({
-  preset: "standard-agreement-for-web-design-services",
+  preset: "master-services-agreement",
   clientId: "person_abc123"
 })
 ```
@@ -72,13 +72,13 @@ Open the generated JSON at `src/presets/contracts/<slug>.json`:
 
 ```json
 {
-  "slug": "standard-agreement-for-web-design-services",
-  "displayName": "Standard agreement for web design services",
+  "slug": "master-services-agreement",
+  "displayName": "Master Services Agreement",
   "description": "Extracted from Plutio template ... on 2026-04-28.",
   "blocks": [
     {
       "type": "content",
-      "textHTML": "<h3>STANDARD AGREEMENT FOR WEB DESIGN SERVICES</h3>..."
+      "textHTML": "<h3>Your agreement title here</h3>..."
     },
     { "type": "signature" }
   ]

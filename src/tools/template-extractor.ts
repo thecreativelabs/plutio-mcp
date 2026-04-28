@@ -43,7 +43,7 @@ const PRESETS_ROOT = path.join(
   "presets",
 );
 
-/** Convert "STANDARD AGREEMENT FOR WEB DESIGN" → "standard-agreement-for-web-design" */
+/** Convert "MASTER SERVICES AGREEMENT" → "master-services-agreement" */
 function slugify(text: string): string {
   return text
     .toLowerCase()

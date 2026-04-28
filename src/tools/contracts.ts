@@ -1,9 +1,7 @@
-import { readFileSync, readdirSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
 import { z } from "zod";
 import type { PlutioClient } from "../client.js";
 import type { ToolDefinition } from "./factory.js";
+import { listPresetSources, loadPresetsFor } from "./preset-loader.js";
 
 /**
  * Block schema for contracts is a strict subset of proposals. Plutio's API
@@ -26,22 +24,8 @@ interface ContractPreset {
   blocks: PresetBlock[];
 }
 
-const PRESETS_DIR = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-  "presets",
-  "contracts",
-);
-
 function loadPresets(): ContractPreset[] {
-  try {
-    const files = readdirSync(PRESETS_DIR).filter((f) => f.endsWith(".json"));
-    return files.map(
-      (f) => JSON.parse(readFileSync(path.join(PRESETS_DIR, f), "utf8")) as ContractPreset,
-    );
-  } catch {
-    return [];
-  }
+  return loadPresetsFor<ContractPreset>("contracts");
 }
 
 // ─── plutio_list_contract_presets ───────────────────────────────────────────
@@ -54,6 +38,7 @@ export function createListContractPresetsTool(): ToolDefinition {
     inputSchema: z.object({}),
     handler: async () => {
       const presets = loadPresets();
+      const sources = listPresetSources("contracts");
       return {
         count: presets.length,
         presets: presets.map((p) => ({
@@ -62,8 +47,9 @@ export function createListContractPresetsTool(): ToolDefinition {
           description: p.description,
           blocks: p.blocks.length,
         })),
+        sources,
         warning:
-          "Shipped presets are starting points and contain TODO placeholders. They are NOT legal advice and should be reviewed by counsel before use.",
+          "Built-in presets contain TODO placeholders and are NOT legal advice. User presets (from PLUTIO_USER_PRESETS_DIR) come from your own Plutio templates. Always review with counsel before sending.",
       };
     },
   };

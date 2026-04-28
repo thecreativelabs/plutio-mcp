@@ -95,6 +95,7 @@ Set `PLUTIO_READ_ONLY=false` to unlock `create`, `update`, `delete`, `archive`, 
 | `PLUTIO_MCP_HTTP_PORT` | no | `8080` | HTTP port when in HTTP mode |
 | `PLUTIO_MCP_HTTP_HOST` | no | `127.0.0.1` | HTTP host. Set to `0.0.0.0` for remote access (e.g. behind ngrok) |
 | `PLUTIO_MCP_AUTH_TOKEN` | no | — | If set, HTTP requests must carry `Authorization: Bearer <token>`. Strongly recommended when exposing publicly |
+| `PLUTIO_USER_PRESETS_DIR` | no | — | Path to a directory of your private contract/proposal preset JSON files. Loaded alongside built-ins. Use this for templates extracted from your own Plutio workspace via `plutio_template_to_preset`. See [examples/13](examples/13-template-extraction.md) |
 
 See [`.env.example`](.env.example).
 

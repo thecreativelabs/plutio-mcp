@@ -1,9 +1,7 @@
-import { readFileSync, readdirSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
 import { z } from "zod";
 import type { PlutioClient } from "../client.js";
 import type { ToolDefinition } from "./factory.js";
+import { listPresetSources, loadPresetsFor } from "./preset-loader.js";
 
 /** A billable line item in the shape Plutio's POST /proposals accepts. */
 interface PresetBillableItem {
@@ -31,20 +29,8 @@ interface Preset {
 
 // ─── Preset loading ─────────────────────────────────────────────────────────
 
-const PRESETS_DIR = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-  "presets",
-  "proposals",
-);
-
 function loadPresets(): Preset[] {
-  try {
-    const files = readdirSync(PRESETS_DIR).filter((f) => f.endsWith(".json"));
-    return files.map((f) => JSON.parse(readFileSync(path.join(PRESETS_DIR, f), "utf8")) as Preset);
-  } catch {
-    return [];
-  }
+  return loadPresetsFor<Preset>("proposals");
 }
 
 // ─── plutio_list_proposal_presets ───────────────────────────────────────────
@@ -57,6 +43,7 @@ export function createListProposalPresetsTool(): ToolDefinition {
     inputSchema: z.object({}),
     handler: async () => {
       const presets = loadPresets();
+      const sources = listPresetSources("proposals");
       return {
         count: presets.length,
         presets: presets.map((p) => ({
@@ -68,6 +55,7 @@ export function createListProposalPresetsTool(): ToolDefinition {
           blocks: p.blocks.length,
           estimatedTotal: p.billableItems.reduce((sum, i) => sum + i.amount * i.quantity, 0),
         })),
+        sources,
       };
     },
   };

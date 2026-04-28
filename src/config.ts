@@ -13,6 +13,7 @@ const ConfigSchema = z.object({
   httpPort: z.number().int().positive().max(65535).default(8080),
   httpHost: z.string().default("127.0.0.1"),
   authToken: z.string().min(1).optional(),
+  userPresetsDir: z.string().min(1).optional(),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -39,5 +40,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     httpPort: env.PLUTIO_MCP_HTTP_PORT ? Number(env.PLUTIO_MCP_HTTP_PORT) : 8080,
     httpHost: env.PLUTIO_MCP_HTTP_HOST ?? "127.0.0.1",
     authToken: env.PLUTIO_MCP_AUTH_TOKEN,
+    userPresetsDir: env.PLUTIO_USER_PRESETS_DIR,
   });
 }

@@ -24,6 +24,14 @@ import {
   createListContractPresetsTool,
 } from "./contracts.js";
 import { createTemplateToPresetTool } from "./template-extractor.js";
+import {
+  createApplyCustomFieldsBundleTool,
+  createListCustomFieldsBundlesTool,
+} from "./custom-fields-bundle.js";
+import {
+  createDashboardPageFromPresetTool,
+  createListDashboardPagePresetsTool,
+} from "./dashboard-page-builder.js";
 
 export function buildTools(client: PlutioClient, options: { readOnly: boolean }): ToolDefinition[] {
   const writeable = !options.readOnly;
@@ -44,6 +52,10 @@ export function buildTools(client: PlutioClient, options: { readOnly: boolean })
     createListContractPresetsTool(),
     createContractFromPresetTool(client),
     createTemplateToPresetTool(client),
+    createListCustomFieldsBundlesTool(),
+    createApplyCustomFieldsBundleTool(client),
+    createListDashboardPagePresetsTool(),
+    createDashboardPageFromPresetTool(client),
     ...resourceTools,
   ];
 }

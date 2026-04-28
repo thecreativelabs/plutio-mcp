@@ -1,0 +1,52 @@
+{
+  "slug": "client-onboarding",
+  "displayName": "Client onboarding fields",
+  "description": "Fields that track a client through the onboarding journey from welcome through first deliverable.",
+  "fields": [
+    {
+      "entityType": "person",
+      "inputType": "select",
+      "title": "Onboarding Stage",
+      "options": [
+        { "name": "Welcome sent" },
+        { "name": "Intake form completed" },
+        { "name": "Contract signed" },
+        { "name": "Kickoff scheduled" },
+        { "name": "Discovery complete" },
+        { "name": "In delivery" },
+        { "name": "Project complete" }
+      ]
+    },
+    {
+      "entityType": "person",
+      "inputType": "checkbox",
+      "title": "NDA Signed"
+    },
+    {
+      "entityType": "person",
+      "inputType": "checkbox",
+      "title": "Welcome Pack Sent"
+    },
+    {
+      "entityType": "person",
+      "inputType": "date",
+      "title": "Project Start Date"
+    },
+    {
+      "entityType": "person",
+      "inputType": "text",
+      "title": "Primary Point of Contact"
+    },
+    {
+      "entityType": "company",
+      "inputType": "select",
+      "title": "Account Tier",
+      "options": [
+        { "name": "Starter" },
+        { "name": "Growth" },
+        { "name": "Premium" },
+        { "name": "Enterprise" }
+      ]
+    }
+  ]
+}

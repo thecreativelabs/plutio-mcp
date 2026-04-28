@@ -1,0 +1,23 @@
+{
+  "slug": "client-welcome",
+  "displayName": "Client welcome page",
+  "description": "Personalized welcome landing page for new clients — intro, what to expect, onboarding checklist, and how to reach you. Plutio's native variables ({{ business.name }}, {{ client.name }}) render server-side.",
+  "blocks": [
+    {
+      "type": "content",
+      "textHTML": "<h1>Welcome, {{ client.name }} 👋</h1><p>We're thrilled to be working with you. This page is your home base for our engagement — bookmark it. Below you'll find what to expect over the next few weeks, your onboarding checklist, and how to reach us when you need anything.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>What to expect</h2><p>Our process is built around clarity and momentum. We'll keep weekly check-ins short, send you a written recap after every meeting, and make sure you always know what's coming next. No surprises, no scope creep.</p><p>Your first two weeks look like this:</p><ul><li><strong>Week 1:</strong> Discovery call, intake form, kickoff session.</li><li><strong>Week 2:</strong> First deliverable preview and your feedback loop established.</li></ul>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Your onboarding checklist</h2><ul><li>☐ Review and sign the service agreement</li><li>☐ Complete the intake form (we'll send the link)</li><li>☐ Schedule the kickoff call</li><li>☐ Share brand assets (logos, fonts, colors, photography)</li><li>☐ Add us to your calendar for weekly check-ins</li></ul>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>How to reach us</h2><p>Day-to-day questions: reply to any email from <strong>{{ business.name }}</strong> or message us in this Plutio portal. We respond within one business day.</p><p>Urgent / time-sensitive: call our main line during business hours. Off-hours emergencies — we'll share a direct number after kickoff.</p>"
+    }
+  ]
+}

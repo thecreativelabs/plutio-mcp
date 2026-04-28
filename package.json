@@ -1,6 +1,6 @@
 {
   "name": "@thecreativelabs/plutio-mcp",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Model Context Protocol server for Plutio — CRM, projects, invoices, proposals, forms, time tracking, scheduling, and more.",
   "type": "module",
   "bin": {

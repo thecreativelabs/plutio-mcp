@@ -13,6 +13,7 @@ function walk(s, d) {
     else if (entry.name.endsWith(".json")) copyFileSync(sp, dp);
   }
 }
+// Same for the new preset categories — handled by recursive walk above (custom-fields/, dashboard-pages/, etc.)
 
 if (existsSync(src)) {
   walk(src, dst);

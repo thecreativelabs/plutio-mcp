@@ -1,0 +1,27 @@
+{
+  "slug": "project-status",
+  "displayName": "Project status snapshot",
+  "description": "An always-current view of where a client's active project stands — phase, this week's focus, blockers, upcoming deliverables. Update the content blocks weekly.",
+  "blocks": [
+    {
+      "type": "content",
+      "textHTML": "<h1>Project status</h1><p>This page reflects where your project stands as of this week. We update it after every Friday check-in so you always have a current picture without waiting for an email.</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Where we are</h2><p><strong>Current phase:</strong> Discovery / Design / Development / QA / Launch  <em>(update this each week)</em></p><p><strong>Overall progress:</strong> XX%</p><p><strong>Next milestone:</strong> [milestone name] — expected [date]</p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>This week's focus</h2><ul><li>[Top priority for this week]</li><li>[Second priority]</li><li>[Anything we need from you]</li></ul>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Blockers / decisions needed</h2><p><em>Anything currently waiting on a decision from your side, listed here so it doesn't sit in someone's inbox. If this section is empty, you're all clear.</em></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>Recent deliverables</h2><p><em>Links to most recent shared work — designs, drafts, demo URLs. We'll keep the last 3-4 here for quick reference.</em></p>"
+    }
+  ]
+}

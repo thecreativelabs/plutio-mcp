@@ -261,7 +261,20 @@ export const RESOURCES: ResourceSpec[] = [
     name: "dashboards",
     path: "dashboards",
     category: "analytics",
-    description: "Custom dashboards — list, read, or build new visualizations.",
+    description:
+      "Plutio's role-based custom landing pages, exposed in the UI as Settings → Custom Pages → Owner / Co-Owner / Client / Manager / Team Member. Read-only via REST: cannot create new role dashboards or update existing ones. To add CONTENT to a role's view, create new dashboard_pages on that role's dashboard (each dashboard has a `pages` array of {_id, title}).",
+    readOnly: true,
+    bulk: false,
+  },
+  {
+    name: "dashboard_pages",
+    path: "dashboard-pages",
+    category: "admin",
+    description:
+      "Pages within Plutio's role-based custom dashboards. Each page has its own `blocks` array, a `layout` grid (x/y/width/height per block), and a `dashboardId`. CREATE a new page with `{title, dashboardId}`, then attach content via plutio_blocks create with `entityType: 'dashboard-page'` and the page's `_id` as `entityId`. UPDATE and DELETE are blocked by Plutio's REST API (manage existing pages in the web UI).",
+    noUpdate: true,
+    noDelete: true,
+    bulk: false,
   },
   {
     name: "custom_fields",

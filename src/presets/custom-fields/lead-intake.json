@@ -1,0 +1,56 @@
+{
+  "slug": "lead-intake",
+  "displayName": "Lead intake fields",
+  "description": "Common fields for tracking inbound leads on the Person entity: source, budget, status, first contact, and free-form notes.",
+  "fields": [
+    {
+      "entityType": "person",
+      "inputType": "select",
+      "title": "Lead Source",
+      "options": [
+        { "name": "Website" },
+        { "name": "Referral" },
+        { "name": "Social media" },
+        { "name": "Cold outreach" },
+        { "name": "Inbound DM" },
+        { "name": "Other" }
+      ]
+    },
+    {
+      "entityType": "person",
+      "inputType": "select",
+      "title": "Budget Range",
+      "options": [
+        { "name": "Under $5K" },
+        { "name": "$5K – $15K" },
+        { "name": "$15K – $50K" },
+        { "name": "$50K+" },
+        { "name": "Unspecified" }
+      ]
+    },
+    {
+      "entityType": "person",
+      "inputType": "select",
+      "title": "Lead Status",
+      "options": [
+        { "name": "New" },
+        { "name": "Qualified" },
+        { "name": "In conversation" },
+        { "name": "Proposal sent" },
+        { "name": "Won" },
+        { "name": "Lost" },
+        { "name": "Nurture" }
+      ]
+    },
+    {
+      "entityType": "person",
+      "inputType": "date",
+      "title": "First Contact Date"
+    },
+    {
+      "entityType": "person",
+      "inputType": "text",
+      "title": "Lead Notes"
+    }
+  ]
+}

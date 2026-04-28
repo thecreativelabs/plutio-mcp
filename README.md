@@ -176,6 +176,11 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 ### Template extractor (v0.10.0)
 - `plutio_template_to_preset` — read any of your existing Plutio contract/proposal templates and emit a preset JSON ready for the builders. Run once per template, save to disk, your real prose becomes available to AI generation forever. See [examples/13](examples/13-template-extraction.md).
 
+### Custom Pages + Custom Fields config (v0.10.2)
+- `plutio_dashboard_pages` — list/get/create new pages on any of Plutio's role dashboards (Settings → Custom Pages). Update + delete blocked by REST (use UI).
+- `plutio_create_dashboard_page_from_preset` — instantiate a page from a starter scaffold (`client-welcome`, `project-status`) with content blocks pre-populated. Plutio's native `{{ client.name }}` / `{{ business.name }}` tokens render at view time.
+- `plutio_apply_custom_fields_bundle` — create a curated set of custom fields in one call. Shipped bundles: `lead-intake`, `client-onboarding`. Skips fields whose (entityType, title) already exists. See [examples/14](examples/14-dashboards-and-fields.md).
+
 ### Escape hatches
 - `plutio_api_reference` — compact map of every tool + API path. Call first when unsure.
 - `plutio_workspace_schema` — introspects custom fields. Returns `{entityType: {fieldTitle: {_id, inputType, options: {optionLabel: optionId}}}}`. Cached 5 min.

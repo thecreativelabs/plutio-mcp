@@ -52,6 +52,12 @@ describe("buildTools — read-only mode", () => {
       "plutio_contract_from_preset",
       // template extractor
       "plutio_template_to_preset",
+      // custom-fields bundles
+      "plutio_list_custom_fields_bundles",
+      "plutio_apply_custom_fields_bundle",
+      // dashboard pages
+      "plutio_list_dashboard_page_presets",
+      "plutio_create_dashboard_page_from_preset",
     ];
     expect(tools.length).toBe(RESOURCES.length + nonResource.length);
     for (const h of nonResource) {

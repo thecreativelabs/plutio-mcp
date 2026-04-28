@@ -46,6 +46,8 @@ export interface ResourceSpec {
   noGet?: boolean;
   /** If true, `DELETE` isn't supported even as part of bulk — hide delete actions. */
   noDelete?: boolean;
+  /** If true, `PUT/PATCH` aren't supported — hide update actions (create-only resources). */
+  noUpdate?: boolean;
 }
 
 export interface ToolDefinition {
@@ -110,14 +112,18 @@ function buildSchema(spec: ResourceSpec, writeable: boolean) {
           data: DataField,
         })
         .describe("Create a new record."),
-      z
-        .object({
-          action: z.literal("update"),
-          id: z.string().min(1),
-          data: DataField,
-        })
-        .describe("Update an existing record (PUT — send the fields you want to change)."),
     );
+    if (!spec.noUpdate) {
+      members.push(
+        z
+          .object({
+            action: z.literal("update"),
+            id: z.string().min(1),
+            data: DataField,
+          })
+          .describe("Update an existing record (PUT — send the fields you want to change)."),
+      );
+    }
     if (!spec.noDelete) {
       members.push(
         z
@@ -147,15 +153,17 @@ function buildSchema(spec: ResourceSpec, writeable: boolean) {
     }
 
     if (spec.bulk !== false) {
-      members.push(
-        z
-          .object({
-            action: z.literal("bulk_update"),
-            ids: z.array(z.string().min(1)).min(1).max(100),
-            data: DataField,
-          })
-          .describe("Apply the same update to many records."),
-      );
+      if (!spec.noUpdate) {
+        members.push(
+          z
+            .object({
+              action: z.literal("bulk_update"),
+              ids: z.array(z.string().min(1)).min(1).max(100),
+              data: DataField,
+            })
+            .describe("Apply the same update to many records."),
+        );
+      }
       if (!spec.noDelete) {
         members.push(
           z
@@ -186,11 +194,12 @@ function actionsListForSpec(spec: ResourceSpec, writeable: boolean): ResourceAct
   const actions: ResourceAction[] = ["list"];
   if (!spec.noGet) actions.push("get");
   if (writeable && !spec.readOnly) {
-    actions.push("create", "update");
+    actions.push("create");
+    if (!spec.noUpdate) actions.push("update");
     if (!spec.noDelete) actions.push("delete");
     if (spec.archive) actions.push("archive", "unarchive");
     if (spec.bulk !== false) {
-      actions.push("bulk_update");
+      if (!spec.noUpdate) actions.push("bulk_update");
       if (!spec.noDelete) actions.push("bulk_delete");
       if (spec.archive) actions.push("bulk_archive");
     }

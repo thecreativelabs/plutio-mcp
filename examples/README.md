@@ -19,6 +19,7 @@ All examples are verified against a real Plutio workspace. Nothing here is hypot
 | [11](11-proposal-builder.md) | Automated proposal builder with presets & block templates | `plutio_list_proposal_presets`, `plutio_proposal_from_preset`, `plutio_analyze_proposal` |
 | [12](12-contract-builder.md) | Contract builder with variable substitution (NDA, service agreement) | `plutio_list_contract_presets`, `plutio_contract_from_preset` |
 | [13](13-template-extraction.md) | Extract existing Plutio templates into reusable presets | `plutio_template_to_preset` |
+| [14](14-dashboards-and-fields.md) | Configure Custom Pages + Custom Fields via API (with starter bundles) | `plutio_apply_custom_fields_bundle`, `plutio_create_dashboard_page_from_preset` |
 
 ## Tips
 

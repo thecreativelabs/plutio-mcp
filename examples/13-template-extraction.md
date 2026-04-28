@@ -103,7 +103,7 @@ A common one-shot workflow for a new client:
 
 1. **Extract** (one-time, per template): `plutio_template_to_preset` for each of your 9 contract templates → 9 preset JSONs in the repo.
 2. **Discovery**: `plutio_client_360 { name: "Acme Corp" }` to confirm the client record.
-3. **Generate**: `plutio_contract_from_preset { preset: "standard-agreement-for-web-design-services", clientId: "..." }`.
+3. **Generate**: `plutio_contract_from_preset { preset: "master-services-agreement", clientId: "..." }`.
 4. **Review + send** in Plutio's UI (REST API doesn't expose the signature flow).
 
 After step 1 (the one-time setup), step 3 runs in seconds for any client.

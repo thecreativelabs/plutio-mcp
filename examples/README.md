@@ -17,6 +17,7 @@ All examples are verified against a real Plutio workspace. Nothing here is hypot
 | [09](09-subscription-bulk-adjustment.md) | Bulk-raise subscription amounts (pricing changes) | `plutio_invoice_subscriptions` |
 | [10](10-chatgpt-setup.md) | Using plutio-mcp from ChatGPT (HTTP mode + ngrok) | — |
 | [11](11-proposal-builder.md) | Automated proposal builder with presets & block templates | `plutio_list_proposal_presets`, `plutio_proposal_from_preset`, `plutio_analyze_proposal` |
+| [12](12-contract-builder.md) | Contract builder with variable substitution (NDA, service agreement) | `plutio_list_contract_presets`, `plutio_contract_from_preset` |
 
 ## Tips
 

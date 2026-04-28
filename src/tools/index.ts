@@ -19,6 +19,10 @@ import {
   createListProposalPresetsTool,
   createProposalFromPresetTool,
 } from "./proposals.js";
+import {
+  createContractFromPresetTool,
+  createListContractPresetsTool,
+} from "./contracts.js";
 
 export function buildTools(client: PlutioClient, options: { readOnly: boolean }): ToolDefinition[] {
   const writeable = !options.readOnly;
@@ -36,6 +40,8 @@ export function buildTools(client: PlutioClient, options: { readOnly: boolean })
     createListProposalPresetsTool(),
     createProposalFromPresetTool(client),
     createAnalyzeProposalTool(client),
+    createListContractPresetsTool(),
+    createContractFromPresetTool(client),
     ...resourceTools,
   ];
 }

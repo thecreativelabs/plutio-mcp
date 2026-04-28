@@ -1,0 +1,46 @@
+{
+  "slug": "service-agreement",
+  "displayName": "Service agreement (general)",
+  "description": "Starter service agreement: parties, scope, payment, IP, confidentiality, termination, governing law, signature. Replace TODO sections with your actual clauses.",
+  "blocks": [
+    {
+      "type": "content",
+      "textHTML": "<h1>Service Agreement</h1><p><em>This Agreement is entered into between <strong>{{ provider_legal_name }}</strong> (\"Provider\") and <strong>{{ client_legal_name }}</strong> (\"Client\"), effective as of <strong>{{ effective_date }}</strong>.</em></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>1. Scope of Services</h2><p><!-- TODO: describe the services you'll deliver. Reference the related proposal if applicable, or list deliverables explicitly. Keep it specific enough that both parties know what 'done' looks like. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>2. Payment Terms</h2><p><!-- TODO: deposit %, milestone billing, due dates, late-payment terms, accepted methods, currency. State explicitly when invoices are due (e.g. 'Net 14') and what happens if they're not paid (e.g. 'work pauses after 14 days overdue'). --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>3. Intellectual Property</h2><p><!-- TODO: who owns the work product, when (typically: rights transfer on final payment), what Provider retains (typically: portfolio rights, underlying methods/tools), and any third-party licenses Client must maintain. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>4. Confidentiality</h2><p><!-- TODO: define confidential information, mutual obligations, exceptions (already public, independently developed, required by law), and survival period after termination. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>5. Term and Termination</h2><p><!-- TODO: how the agreement starts and ends. Termination for cause vs. convenience, notice period, what's owed on early termination, and obligations that survive (confidentiality, payment for work completed). --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>6. Limitation of Liability</h2><p><!-- TODO: cap on damages (often: total fees paid in last 12 months), exclusion of consequential/indirect damages, and any carve-outs (gross negligence, willful misconduct, IP indemnification). Discuss with your attorney for your jurisdiction. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>7. Governing Law and Dispute Resolution</h2><p><!-- TODO: governing state/country, venue for disputes, whether to require mediation/arbitration before litigation, and language for waiver of jury trial if applicable. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>8. Miscellaneous</h2><p><!-- TODO: assignment, force majeure, entire-agreement clause, severability, amendments-in-writing requirement, notices (where to send legal notices and how). --></p>"
+    },
+    {
+      "type": "signature"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { loadConfig } from "./config.js";
 import { startHttpServer } from "./http-transport.js";
-import { createServer } from "./server.js";
+import { buildHandlers, newMcpServer } from "./server.js";
 
 async function main() {
   let config;
@@ -24,24 +24,20 @@ async function main() {
     process.exit(1);
   }
 
-  const { server, logger } = createServer(config);
+  const handlers = buildHandlers(config);
+  const { logger } = handlers;
 
   if (config.httpMode) {
     const httpServer = await startHttpServer({
       port: config.httpPort,
       host: config.httpHost,
       authToken: config.authToken,
-      mcpServer: server,
+      handlers,
       logger,
     });
     const shutdown = async (signal: string) => {
       logger.info(`received ${signal}, shutting down HTTP server`);
       await new Promise<void>((resolve) => httpServer.close(() => resolve()));
-      try {
-        await server.close();
-      } catch (err) {
-        logger.warn("error during shutdown", err);
-      }
       process.exit(0);
     };
     process.on("SIGINT", () => void shutdown("SIGINT"));
@@ -49,6 +45,8 @@ async function main() {
     return;
   }
 
+  // stdio mode: single long-lived McpServer
+  const server = newMcpServer(handlers);
   const transport = new StdioServerTransport();
 
   const shutdown = async (signal: string) => {

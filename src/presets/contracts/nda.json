@@ -1,0 +1,46 @@
+{
+  "slug": "nda",
+  "displayName": "Mutual Non-Disclosure Agreement",
+  "description": "Two-party mutual NDA: definition, obligations, term, exclusions, return of materials, governing law, signature. Replace TODO sections with your jurisdiction-appropriate language.",
+  "blocks": [
+    {
+      "type": "content",
+      "textHTML": "<h1>Mutual Non-Disclosure Agreement</h1><p><em>This Mutual NDA is entered into between <strong>{{ party_a_name }}</strong> and <strong>{{ party_b_name }}</strong> (each a \"Party,\" together the \"Parties\"), effective as of <strong>{{ effective_date }}</strong>, in connection with <strong>{{ purpose_short }}</strong> (the \"Purpose\").</em></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>1. Definition of Confidential Information</h2><p><!-- TODO: what counts as Confidential Information. Common pattern: any non-public information disclosed by one Party to the other in any form, whether marked confidential or not, that a reasonable person would understand to be confidential given the nature of the information and the circumstances. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>2. Obligations</h2><p><!-- TODO: receiving Party's duties — protect with at least the same care as own confidential info (and no less than reasonable care), use only for the Purpose, restrict internal access to those who need to know and are bound by similar obligations, no disclosure to third parties without prior written consent. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>3. Exclusions</h2><p><!-- TODO: standard carve-outs — information that (a) was already known to receiving Party without obligation, (b) becomes publicly available through no fault of receiving Party, (c) is independently developed without use of disclosing Party's information, (d) is rightfully received from a third party without restriction. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>4. Term</h2><p><!-- TODO: how long the agreement lasts (e.g. 2 years from effective date), and how long confidentiality obligations survive after termination (often 3-5 years for commercial info; perpetual for trade secrets). --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>5. Return or Destruction of Materials</h2><p><!-- TODO: on termination or written request, receiving Party returns or destroys all Confidential Information, including copies and derivatives, and certifies destruction in writing. Carve-out for backup copies that aren't readily destructible (still subject to ongoing obligations). --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>6. Required Disclosure</h2><p><!-- TODO: if compelled by law, court order, or regulator: prompt notice to disclosing Party (if legally permitted), reasonable cooperation in seeking protective order, and disclose only the minimum required. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>7. No License</h2><p><!-- TODO: nothing in this NDA grants any license to IP rights — patents, copyrights, trademarks, trade secrets — except the limited right to use Confidential Information for the Purpose. --></p>"
+    },
+    {
+      "type": "content",
+      "textHTML": "<h2>8. Governing Law</h2><p><!-- TODO: governing state/country and venue for disputes. Match the jurisdiction you'd use in your service agreement. --></p>"
+    },
+    {
+      "type": "signature"
+    }
+  ]
+}

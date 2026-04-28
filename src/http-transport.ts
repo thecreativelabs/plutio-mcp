@@ -1,14 +1,15 @@
 import http from "node:http";
-import type { Server as McpServer } from "@modelcontextprotocol/sdk/server/index.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type { Logger } from "./logger.js";
+import { newMcpServer, type ServerHandlers } from "./server.js";
 
 export interface HttpTransportOptions {
   port: number;
   host: string;
   /** If set, incoming requests must carry `Authorization: Bearer <authToken>`. */
   authToken?: string;
-  mcpServer: McpServer;
+  /** Shared handlers (client, tools, registry). A fresh McpServer is built per request. */
+  handlers: ServerHandlers;
   logger: Logger;
 }
 
@@ -21,7 +22,13 @@ export interface HttpTransportOptions {
  * including ChatGPT, which issues fresh JSON-RPC calls per prompt.
  */
 export async function startHttpServer(opts: HttpTransportOptions): Promise<http.Server> {
-  const { port, host, authToken, mcpServer, logger } = opts;
+  const { port, host, authToken, handlers, logger } = opts;
+
+  // Per-request McpServer + Transport pair (stateless). The MCP SDK's Server
+  // is bound 1:1 to a Transport, so concurrent requests need fully isolated
+  // pairs. We pre-build the heavy `handlers` (tools, Plutio client, resource
+  // bindings) once and assemble a fresh Server shell per request — that's
+  // cheap (just attaching request handlers).
 
   const server = http.createServer(async (req, res) => {
     const url = new URL(req.url ?? "/", `http://${req.headers.host ?? `${host}:${port}`}`);
@@ -54,7 +61,7 @@ export async function startHttpServer(opts: HttpTransportOptions): Promise<http.
       try {
         body = await readJsonBody(req);
       } catch (err) {
-        logger.warn("failed to parse request body", err);
+        logger.warn("failed to parse request body", err instanceof Error ? err.message : String(err));
         res.writeHead(400, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "Invalid JSON body" }));
         return;
@@ -62,20 +69,42 @@ export async function startHttpServer(opts: HttpTransportOptions): Promise<http.
     }
 
     const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
-    transport.onerror = (error) => logger.warn("transport error", error.message);
-    res.on("close", () => {
-      void transport.close();
-    });
+    transport.onerror = (error) =>
+      logger.warn("transport error", error instanceof Error ? error.message : String(error));
+
+    const mcpServer = newMcpServer(handlers);
+
+    let closed = false;
+    const cleanup = async () => {
+      if (closed) return;
+      closed = true;
+      try {
+        await mcpServer.close();
+      } catch {
+        // ignore — server may already be closed
+      }
+      try {
+        await transport.close();
+      } catch {
+        // ignore
+      }
+    };
+    res.on("close", () => void cleanup());
 
     try {
       await mcpServer.connect(transport);
       await transport.handleRequest(req, res, body);
     } catch (err) {
-      logger.error("transport handleRequest failed", err);
+      logger.error(
+        "transport handleRequest failed",
+        err instanceof Error ? `${err.message}\n${err.stack}` : String(err),
+      );
       if (!res.headersSent) {
         res.writeHead(500, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "Internal error" }));
       }
+    } finally {
+      await cleanup();
     }
   });
 

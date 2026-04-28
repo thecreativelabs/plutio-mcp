@@ -13,12 +13,26 @@ import { buildTools } from "./tools/index.js";
 import type { ToolDefinition } from "./tools/factory.js";
 
 const SERVER_NAME = "plutio-mcp";
-const SERVER_VERSION = "0.8.0";
+const SERVER_VERSION = "0.9.0";
 
-export function createServer(config: Config): {
-  server: Server;
+/**
+ * Pre-built handlers shared across `Server` instances.
+ *
+ * The MCP SDK's `Server` is bound 1:1 to a single `Transport` and refuses to
+ * connect to a second one. For HTTP mode, each incoming request needs its own
+ * `Server`+`Transport` pair to support concurrency. We build the heavy stuff
+ * (tools, client, resource handlers) once and then attach them to a fresh
+ * `Server` shell per request via `attachHandlers()`. Stdio mode uses
+ * `createServer()` and gets a single long-lived instance.
+ */
+export interface ServerHandlers {
+  client: PlutioClient;
+  tools: ToolDefinition[];
+  toolIndex: Map<string, ToolDefinition>;
   logger: Logger;
-} {
+}
+
+export function buildHandlers(config: Config): ServerHandlers {
   const logger = new Logger(config.logLevel);
   const client = new PlutioClient(config);
   const tools = buildTools(client, { readOnly: config.readOnly });
@@ -27,6 +41,12 @@ export function createServer(config: Config): {
   logger.info(
     `loaded ${tools.length} tools (readOnly=${config.readOnly}, rateLimit=${config.maxRequestsPerHour}/hr)`,
   );
+
+  return { client, tools, toolIndex, logger };
+}
+
+export function newMcpServer(handlers: ServerHandlers): Server {
+  const { client, tools, toolIndex, logger } = handlers;
 
   const server = new Server(
     { name: SERVER_NAME, version: SERVER_VERSION },
@@ -57,7 +77,10 @@ export function createServer(config: Config): {
         content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
       };
     } catch (err) {
-      logger.warn(`✗ ${name} failed`, err instanceof Error ? err.message : err);
+      logger.warn(
+        `✗ ${name} failed`,
+        err instanceof Error ? err.message : String(err),
+      );
       if (err instanceof PlutioError) {
         return err.toToolResponse();
       }
@@ -68,7 +91,16 @@ export function createServer(config: Config): {
     }
   });
 
-  return { server, logger };
+  return server;
+}
+
+/**
+ * Stdio entry: builds handlers and a single long-lived Server.
+ * HTTP entry uses `buildHandlers()` + `newMcpServer()` per request.
+ */
+export function createServer(config: Config): { server: Server; logger: Logger } {
+  const handlers = buildHandlers(config);
+  return { server: newMcpServer(handlers), logger: handlers.logger };
 }
 
 function toInputSchema(schema: z.ZodTypeAny): Record<string, unknown> {

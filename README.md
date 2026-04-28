@@ -168,6 +168,10 @@ plutio_<resource>({ action: "list"|"get"|"create"|"update"|"delete"|"archive"|"b
 - `plutio_proposal_from_preset` — create a fully-populated proposal (blocks + items + client link) in one call.
 - `plutio_analyze_proposal` — inspect a past proposal's structure to mirror it for a new client.
 
+### Contract builder (v0.9.0)
+- `plutio_list_contract_presets` — shipped presets (`service-agreement`, `nda`).
+- `plutio_contract_from_preset` — create a contract end-to-end with `{{ variable }}` substitution. **Note:** shipped presets contain TODO placeholders for legal clauses — replace before sending for signature.
+
 ### Escape hatches
 - `plutio_api_reference` — compact map of every tool + API path. Call first when unsure.
 - `plutio_workspace_schema` — introspects custom fields. Returns `{entityType: {fieldTitle: {_id, inputType, options: {optionLabel: optionId}}}}`. Cached 5 min.
